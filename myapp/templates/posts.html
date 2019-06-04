@@ -2,6 +2,7 @@
 {% block title %}
     <title>BMedium</title>
 {% endblock %}
+
 {% block content %}
     {% for item in posts reversed %}
             <div class="card flex-md-row mb-4 shadow-sm h-md-250">
@@ -17,4 +18,11 @@
             </div>
     {% endfor %}
     <!-- /.container -->
+{% endblock %}
+
+{% block total_posts_count %}
+    <div class="p-3 bg-light rounded">
+        <h4 class="font-italic ">Total Posts:</h4>
+        <a href="#">{{ total_posts_count }}</a>
+    </div>
 {% endblock %}

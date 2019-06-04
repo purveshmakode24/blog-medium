@@ -12,8 +12,10 @@ import filters
 
 def home(request):
     posts = Post.objects.all()
+    total_posts_count = Post.objects.all().count()
     context = {
-        'posts': posts
+        'posts': posts,
+        'total_posts_count': total_posts_count
     }
     return render(request, "posts.html", context)
 
@@ -39,8 +41,9 @@ def register(request):
 def profile(request):
     user = User.objects.get(username=request.user)
     user_posts = user.myapp_posts.all()
+    user_posts_count = user.myapp_posts.all().count()
     # user_posts = UserFilter(request.GET, queryset=posts)
-    return render(request, 'registration/profile.html', {'posts': user_posts})
+    return render(request, 'registration/profile.html', {'posts': user_posts, 'u_p_count': user_posts_count})
 
 
 @login_required
