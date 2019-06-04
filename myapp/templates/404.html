@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% block title %}
+    <title>Not Found - BMedium</title>
+{% endblock %}
+{% block content3 %}
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+        <div class="container">
+
+            <a class="navbar-brand" href="{% url 'blog-home' %}">BMedium</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
+                    aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+        </div>
+    </nav>
+{% endblock %}
+{% block content2 %}
+    <div class="col-m">
+        <div class="p-4">
+            <h1 class="display-1">404</h1>
+        </div>
+
+        <div class="p-4">
+            <h1 class="display-4">We couldn’t find this page.</h1>
+        </div>
+        <div class="p-4">
+           <h6>You can always find insightful stories on our <a href="{% url 'blog-home' %}">homepage</a> ..</h6>
+        </div>
+    </div>
+{% endblock %}
