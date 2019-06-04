@@ -66,7 +66,16 @@ def add_posts_submit(request):
 
     return redirect('blog-home')
 
+
 # class UserFilter(filters.FieldSet):
 #     class Meta:
 #         model = Post
 #         fields = ['title', 'content', 'date_posted', 'author']
+
+def delete_posts(request):
+    if request.method == 'POST':
+        del_post_of_title = request.POST.get('del_post_of_title')
+        Post.objects.filter(title=del_post_of_title).delete()
+        messages.success(request, f'Your Post has been deleted!')
+
+    return redirect('profile')
