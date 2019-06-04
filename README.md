@@ -1,2 +1,2 @@
 # BMedium
-an online publishing platform 
+An online publishing platform 
