@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+{% load crispy_forms_tags %}
+{% block title %}
+    <title>Login</title>
+{% endblock %}
+{% block content %}
+    <div class="card p-4">
+    <div class="pb-3">
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <legend class="border-bottom pb-2 mb-4">Log In</legend>
+                {{ form | crispy }}
+            </div>
+            <button class="btn btn-secondary" type="submit">Login</button>
+        </form>
+    </div>
+    <div class="border-top pt-3">
+        <small class="text-muted">
+            Need An Account? <a href="#">Sign Up</a>
+        </small>
+    </div>
+    </div>
+{% endblock %}
