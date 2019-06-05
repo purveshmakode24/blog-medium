@@ -51,7 +51,6 @@ def add_posts(request):
     return render(request, 'add_posts.html')
 
 
-@login_required
 def add_posts_submit(request):
     if request.method == 'POST':
         post_title = request.POST.get('title')
@@ -63,7 +62,9 @@ def add_posts_submit(request):
             messages.success(request, f'Post has been Successfully Added!')
         except Exception as e:
             print(e)
-
+    else:
+        # return render(request, '404.html')
+        return redirect('error_404')
     return redirect('blog-home')
 
 
@@ -74,8 +75,26 @@ def add_posts_submit(request):
 
 def delete_posts(request):
     if request.method == 'POST':
-        del_post_of_title = request.POST.get('del_post_of_title')
-        Post.objects.filter(title=del_post_of_title).delete()
+        del_post_of_id = request.POST.get('del_post_of_id')
+        # resolved deleting of post with same title names, and assign filter to 'post id' instead, as it's always unique
+        Post.objects.filter(id=del_post_of_id).delete()
         messages.success(request, f'Your Post has been deleted!')
-
+    else:
+        return redirect('error_404')
     return redirect('profile')
+
+
+def update_post(request):
+    if request.method == 'POST':
+        post_id = request.POST.get('post_id')
+        update_title_to = request.POST.get('update_title_to')
+        update_content_to = request.POST.get('update_content_to')
+        Post.objects.filter(id=post_id).update(title=update_title_to, content=update_content_to)
+        messages.success(request, f'Your Post has been Updated!')
+    else:
+        return redirect('error_404')
+    return redirect('profile')
+
+
+def error_404(request):
+    return render(request, "404.html")
