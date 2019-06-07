@@ -14,12 +14,13 @@ from .forms import UserRegisterForm
 
 
 def home(request):
+    total_users = User.objects.all().count()
     posts = Post.objects.all()
     total_posts_count = Post.objects.all().count()
 
     context = {'posts': posts,
+               'total_users': total_users,
                'total_posts_count': total_posts_count}
-
     return render(request, "posts.html", context)
 
 

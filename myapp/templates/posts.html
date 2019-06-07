@@ -32,7 +32,13 @@
 
 {% block total_posts_count %}
     <div class="p-3 bg-light rounded">
-        <h4><i class="font-italic ">Total Posts:</i> <span
-                class="badge badge-secondary">{{ total_posts_count }}</span></h4>
+        <div class="mb-3">
+            <h4><i class="font-italic pr-4">Total Posts:</i> <span
+                    class="badge badge-secondary">{{ total_posts_count }}</span></h4>
+        </div>
+        <div class="pt-3 border-top">
+            <h4><i class="font-italic pr-4">Total Users:</i> <span
+                    class="badge badge-secondary">{{ total_users }}</span></h4>
+        </div>
     </div>
 {% endblock %}
