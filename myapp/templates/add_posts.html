@@ -4,34 +4,40 @@
     <title>Add Posts: {{ user.username }}</title>
 {% endblock %}
 {% block content %}
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'blog-home' %}">Home</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Add Posts</li>
+        </ol>
+    </nav>
     <div class="card p-4">
-    <div class="pb-3">
-{#        <form method="POST">#}
-{#            {% csrf_token %}#}
-{#            <div class="form-group">#}
-{#                <legend class="border-bottom pb-2 mb-4">Log In</legend>#}
-{#                {{ form | crispy }}#}
-{#            </div>#}
-{#            <button class="btn btn-secondary" type="submit">Login</button>#}
-{#        </form>#}
-        <form method="POST" action="{% url 'add_posts_submit' %}">
-            {% csrf_token %}
-            <legend class="border-bottom pb-2 mb-4">Add Posts</legend>
-            <div class="form-group">
-                <label>Title</label>
-                <input type="text" name="title" class="form-control"  placeholder="My Awesome Blog!" required>
-            </div>
-            <div class="form-group">
-                <label>Content</label>
-                <textarea class="form-control" name="content" rows="5" required></textarea>
-            </div>
-            <div class="form-group">
-                <label>Author Id</label>
-                <input type="text" name="author_id" class="form-control" value="{{ user.id }}" readonly>
-            </div>
-            <button class="btn btn-secondary" type="submit">Post</button>
-        </form>
+        <div class="pb-3">
+            {#        <form method="POST">#}
+            {#            {% csrf_token %}#}
+            {#            <div class="form-group">#}
+            {#                <legend class="border-bottom pb-2 mb-4">Log In</legend>#}
+            {#                {{ form | crispy }}#}
+            {#            </div>#}
+            {#            <button class="btn btn-secondary" type="submit">Login</button>#}
+            {#        </form>#}
+            <form method="POST" action="{% url 'add_posts_submit' %}">
+                {% csrf_token %}
+                <legend class="border-bottom pb-2 mb-4">Add Posts</legend>
+                <div class="form-group">
+                    <label>Title</label>
+                    <input type="text" name="title" class="form-control" placeholder="My Awesome Blog!" required>
+                </div>
+                <div class="form-group">
+                    <label>Content</label>
+                    <textarea class="form-control" name="content" rows="5" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label>Author Id</label>
+                    <input type="text" name="author_id" class="form-control" value="{{ user.id }}" readonly>
+                </div>
+                <button class="btn btn-secondary" type="submit">Post</button>
+            </form>
 
-    </div>
+        </div>
     </div>
 {% endblock %}

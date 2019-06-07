@@ -5,6 +5,8 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import UserRegisterForm
+
+
 # import filters
 
 
@@ -14,10 +16,10 @@ from .forms import UserRegisterForm
 def home(request):
     posts = Post.objects.all()
     total_posts_count = Post.objects.all().count()
-    context = {
-        'posts': posts,
-        'total_posts_count': total_posts_count
-    }
+
+    context = {'posts': posts,
+               'total_posts_count': total_posts_count}
+
     return render(request, "posts.html", context)
 
 
@@ -79,7 +81,7 @@ def delete_posts(request):
         del_post_of_id = request.POST.get('del_post_of_id')
         # resolved deleting of post with same title names, and assign filter to 'post id' instead, as it's always unique
         Post.objects.filter(id=del_post_of_id).delete()
-        messages.success(request, f'Your Post has been deleted!')
+        messages.success(request, f'Your Post has been Deleted!')
     else:
         return redirect('error_404')
     return redirect('profile')
@@ -99,3 +101,18 @@ def update_post(request):
 
 def error_404(request):
     return render(request, "404.html")
+
+
+def full_post(request):
+    if request.method == 'POST':
+        current_post_id = request.POST.get('idd')
+        # getting current post_id from post request so that current post with that id will be shown up on full_post.html
+        posts = Post.objects.filter(id=current_post_id)
+        context = {
+            'posts': posts,
+            'current_post_id': current_post_id
+        }
+        print(current_post_id)
+        return render(request, 'full_post.html', context)
+    else:
+        return redirect('error_404')

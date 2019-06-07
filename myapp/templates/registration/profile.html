@@ -4,9 +4,13 @@
 {% endblock %}
 
 {% block content %}
-    <div class="mb-4">
-        <h3>Profile<span>:</span> {{ user.username }}</h3>
-    </div>
+    <nav aria-label="breadcrumb">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item"><a href="{% url 'blog-home' %}">Home</a></li>
+            <li class="breadcrumb-item active">Profile:{{ user.username }}</li>
+            <li class="breadcrumb-item active" aria-current="page">My Posts</li>
+        </ol>
+    </nav>
     <div class="">
 
         {% if u_p_count == 0 %}
@@ -16,35 +20,41 @@
             </div>
         {% else %}
             {% for item in posts reversed %}
-
-                {% csrf_token %}
-                <div class="card flex-md-row mb-4 shadow-sm h-md-250">
-                    <div class="card-body d-flex flex-column align-items-start">
-                        <strong class="d-inline-block mb-2 text-primary">{{ item.author }}</strong>
-                        <h3 class="mb-0">
-                            <a class="text-dark" href="#">{{ item.title }}</a>
-                        </h3>
-                        <div class="mb-1 text-muted">{{ item.date_posted|date:"F d, Y" }}</div>
-                        <p class="card-text mb-auto">{{ item.content }}</p>
-                        <div class="mt-2">
-                            <table>
-                                <tr>
-                                    <td><a href="#">Continue reading</a></td>
-                                    <td>&nbsp;</td>
-                                    <td>
-                                        <button type="button" class="btn btn-outline-info btn-sm" data-toggle="modal"
-                                                data-target="#id-update-{{ item.id }}">Update
-                                        </button>
-                                        <button type="button" class="btn btn-outline-danger btn-sm" data-toggle="modal"
-                                                data-target="#id-delete-{{ item.id }}">Delete
-                                        </button>
-                                    </td>
-                                </tr>
-                            </table>
+                <form method="POST" action="{% url 'full_post' %}">
+                    {% csrf_token %}
+                    <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+                        <div class="card-body d-flex flex-column align-items-start">
+                            <strong class="d-inline-block mb-2 text-primary">{{ item.author }}</strong>
+                            <h3 class="mb-0">
+                                <a class="text-dark" href="#">{{ item.title }}</a>
+                            </h3>
+                            <div class="mb-1 text-muted">{{ item.date_posted|date:"F d, Y" }}</div>
+                            <p class="card-text mb-auto">{{ item.content | slice:":290" }} ...</p>
+                            <input type="text" name="idd" value="{{ item.id }}" hidden>
+                            <div class="mt-2">
+                                <table>
+                                    <tr>
+                                        <td>
+                                            <button type="submit" class="btn btn-outline-info btn-sm">Continue
+                                                reading..
+                                            </button>
+                                        </td>
+                                        <td>
+                                            <button type="button" class="btn btn-outline-primary btn-sm"
+                                                    data-toggle="modal"
+                                                    data-target="#id-update-{{ item.id }}">Update
+                                            </button>
+                                            <button type="button" class="btn btn-outline-danger btn-sm"
+                                                    data-toggle="modal"
+                                                    data-target="#id-delete-{{ item.id }}">Delete
+                                            </button>
+                                        </td>
+                                    </tr>
+                                </table>
+                            </div>
                         </div>
                     </div>
-                </div>
-
+                </form>
                 <form method="POST" action="{% url 'delete_posts' %}">
                     {% csrf_token %}
                     <!-- Modal delete user post -->
@@ -61,8 +71,8 @@
                                 </div>
                                 <div class="modal-body">
                                     <h6 style="color:#566787">Are you sure you want to delete these Records?</h6>
-                                    <input value="{{ item.title }}" readonly><input
-                                        name="del_post_of_id" value="{{ item.id }}" hidden>
+                                    <input type="text" value="{{ item.title }}" readonly>
+                                    <input type="text" name="del_post_of_id" value="{{ item.id }}" hidden>
                                     <small style="color:#8A6D3B">This action cannot be undone.</small>
                                 </div>
                                 <div class="modal-footer">
@@ -79,10 +89,11 @@
                     <!-- Modal Update post -->
                     <div class="modal fade" id="id-update-{{ item.id }}" tabindex="-1" role="dialog"
                          aria-labelledby="exampleModalLabel" aria-hidden="true">
-                        <div class="modal-dialog" role="document">
+                        <div class="modal-dialog" style="max-width: 1140px;" role="document">
+                            <!-- made extra large modal-->
                             <div class="modal-content">
                                 <div class="modal-header">
-                                    <h5 class="modal-title" id="exampleModalLabel">Update Post</h5>
+                                    <h4 class="modal-title" id="exampleModalLabel">Update Post</h4>
                                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                                         <span aria-hidden="true">&times;</span>
                                     </button>
@@ -98,7 +109,7 @@
                                         <div class="form-group">
                                             <label for="message-text" class="col-form-label">Content:</label>
                                             <textarea class="form-control" name="update_content_to" id="message-text"
-                                                      rows="5">{{ item.content }}</textarea>
+                                                      rows="10">{{ item.content }}</textarea>
                                         </div>
                                         <div class="form-group">
                                             <input type="text" name="post_id" value="{{ item.id }}" hidden>
