@@ -11,7 +11,7 @@
             <li class="breadcrumb-item active" aria-current="page">My Posts</li>
         </ol>
     </nav>
-    <div class="">
+    <div class="user-blog-content">
 
         {% if u_p_count == 0 %}
             <div class="alert alert-info">
@@ -20,41 +20,43 @@
             </div>
         {% else %}
             {% for item in posts reversed %}
-                <form method="POST" action="{% url 'full_post' %}">
-                    {% csrf_token %}
-                    <div class="card flex-md-row mb-4 shadow-sm h-md-250">
-                        <div class="card-body d-flex flex-column align-items-start">
-                            <strong class="d-inline-block mb-2 text-primary">{{ item.author }}</strong>
-                            <h3 class="mb-0">
-                                <a class="text-dark" href="#">{{ item.title }}</a>
-                            </h3>
-                            <div class="mb-1 text-muted">{{ item.date_posted|date:"F d, Y" }}</div>
-                            <p class="card-text mb-auto">{{ item.content | slice:":290" }} ...</p>
-                            <input type="text" name="idd" value="{{ item.id }}" hidden>
-                            <div class="mt-2">
-                                <table>
-                                    <tr>
-                                        <td>
-                                            <button type="submit" class="btn btn-outline-info btn-sm">Continue
-                                                reading..
-                                            </button>
-                                        </td>
-                                        <td>
-                                            <button type="button" class="btn btn-outline-primary btn-sm"
-                                                    data-toggle="modal"
-                                                    data-target="#id-update-{{ item.id }}">Update
-                                            </button>
-                                            <button type="button" class="btn btn-outline-danger btn-sm"
-                                                    data-toggle="modal"
-                                                    data-target="#id-delete-{{ item.id }}">Delete
-                                            </button>
-                                        </td>
-                                    </tr>
-                                </table>
+                <div id="myTable">
+                    <form method="POST" action="{% url 'full_post' %}">
+                        {% csrf_token %}
+                        <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+                            <div class="card-body d-flex flex-column align-items-start">
+                                <strong class="d-inline-block mb-2 text-primary">{{ item.author }}</strong>
+                                <h3 class="mb-0">
+                                    <a class="text-dark" href="#">{{ item.title }}</a>
+                                </h3>
+                                <div class="mb-1 text-muted">{{ item.date_posted|date:"F d, Y" }}</div>
+                                <p class="card-text mb-auto">{{ item.content | slice:":290" }} ...</p>
+                                <input type="text" name="idd" value="{{ item.id }}" hidden>
+                                <div class="mt-2">
+                                    <table>
+                                        <tr>
+                                            <td>
+                                                <button type="submit" class="btn btn-outline-info btn-sm">Continue
+                                                    reading..
+                                                </button>
+                                            </td>
+                                            <td>
+                                                <button type="button" class="btn btn-outline-primary btn-sm"
+                                                        data-toggle="modal"
+                                                        data-target="#id-update-{{ item.id }}">Update
+                                                </button>
+                                                <button type="button" class="btn btn-outline-danger btn-sm"
+                                                        data-toggle="modal"
+                                                        data-target="#id-delete-{{ item.id }}">Delete
+                                                </button>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
                             </div>
                         </div>
-                    </div>
-                </form>
+                    </form>
+                </div>
                 <form method="POST" action="{% url 'delete_posts' %}">
                     {% csrf_token %}
                     <!-- Modal delete user post -->
