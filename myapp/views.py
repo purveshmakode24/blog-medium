@@ -42,17 +42,17 @@ def register(request):
 
 
 @login_required
-def profile(request):
+def profile(request, username):
     user = User.objects.get(username=request.user)
     user_posts = user.myapp_posts.all()
     user_posts_count = user.myapp_posts.all().count()
     # user_posts = UserFilter(request.GET, queryset=posts)
-    return render(request, 'registration/profile.html', {'posts': user_posts, 'u_p_count': user_posts_count})
+    return render(request, 'registration/profile.html', {'posts': user_posts, 'u_p_count': user_posts_count}, username)
 
 
 @login_required
-def add_posts(request):
-    return render(request, 'add_posts.html')
+def add_posts(request, username):
+    return render(request, 'add_posts.html', {}, username)
 
 
 def add_posts_submit(request):
@@ -104,7 +104,11 @@ def error_404(request):
     return render(request, "404.html")
 
 
-def full_post(request):
+def full_post(request, pid, title):
+    all_post = Post.objects.all()
+    for x in all_post:
+        list_p_title = x.title
+        list_pid = x.id
     if request.method == 'POST':
         current_post_id = request.POST.get('idd')
         # getting current post_id from post request so that current post with that id will be shown up on full_post.html
@@ -113,7 +117,23 @@ def full_post(request):
             'posts': posts,
             'current_post_id': current_post_id
         }
-        print(current_post_id)
+        print('post request done')
         return render(request, 'full_post.html', context)
     else:
-        return redirect('error_404')
+        current_post_id = pid
+        current_post_title = title
+        # print(title)
+        print(current_post_id)
+        print("NO Post request")
+
+        posts = Post.objects.filter(id=current_post_id, title=current_post_title)
+
+        if current_post_id == list_pid and current_post_title == list_p_title:
+            context = {
+                'posts': posts,
+                'current_post_id': current_post_id
+            }
+            return render(request, 'full_post.html', context)
+        else:
+            # return redirect('error_404')
+            return render(request, '404.html', {})

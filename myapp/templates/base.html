@@ -32,7 +32,7 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'add_posts' %}">Add Posts</a>
+                            <a class="nav-link" href="{% url 'add_posts' user.username %}">Add Posts</a>
                         </li>
                     {% endif %}
                 </ul>
@@ -42,7 +42,7 @@
                     </li>
                     {% if user.is_authenticated %}
                         <li class="nav-item">
-                            <a class="nav-link" href="{% url 'profile' %}">{{ user.username }}</a>
+                            <a class="nav-link" href="{% url 'profile' user.username %}">{{ user.username }}</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="{% url 'logout' %}">Logout</a>
