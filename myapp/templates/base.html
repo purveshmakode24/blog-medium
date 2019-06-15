@@ -72,6 +72,8 @@
                     {% endfor %}
                 {% endif %}
 
+{#                <div class="alert alert-danger error" style="display: none;">Not Found</div>#}
+
 
                 {% block content %}
 
@@ -120,6 +122,12 @@
             $("#myTable form").filter(function () {
                 $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1)
             });
+
+            //if ($('#myTable form:visible').length === 0) {
+            //    $('.error').show();
+            //}else{
+            //    $('.error').hide()
+            //}
         });
     });
 </script>

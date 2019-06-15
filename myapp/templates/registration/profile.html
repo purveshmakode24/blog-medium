@@ -57,7 +57,7 @@
                         </div>
                     </form>
                 </div>
-                <form method="POST" action="{% url 'delete_posts' %}">
+                <form method="POST" action="{% url 'delete_posts' user.username %}">
                     {% csrf_token %}
                     <!-- Modal delete user post -->
                     <div class="modal fade" id="id-delete-{{ item.id }}" tabindex="-1" role="dialog"
@@ -86,7 +86,7 @@
                     </div>
                 </form>
 
-                <form method="POST" action="{% url 'update_post' %}">
+                <form method="POST" action="{% url 'update_post' user.username %}">
                     {% csrf_token %}
                     <!-- Modal Update post -->
                     <div class="modal fade" id="id-update-{{ item.id }}" tabindex="-1" role="dialog"

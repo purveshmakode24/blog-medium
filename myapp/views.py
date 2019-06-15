@@ -77,7 +77,7 @@ def add_posts_submit(request):
 #         model = Post
 #         fields = ['title', 'content', 'date_posted', 'author']
 
-def delete_posts(request):
+def delete_posts(request, username):
     if request.method == 'POST':
         del_post_of_id = request.POST.get('del_post_of_id')
         # resolved deleting of post with same title names, and assign filter to 'post id' instead, as it's always unique
@@ -85,10 +85,10 @@ def delete_posts(request):
         messages.success(request, f'Your Post has been Deleted!')
     else:
         return redirect('error_404')
-    return redirect('profile')
+    return redirect('profile', username)
 
 
-def update_post(request):
+def update_post(request, username):
     if request.method == 'POST':
         post_id = request.POST.get('post_id')
         update_title_to = request.POST.get('update_title_to')
@@ -97,7 +97,7 @@ def update_post(request):
         messages.success(request, f'Your Post has been Updated!')
     else:
         return redirect('error_404')
-    return redirect('profile')
+    return redirect('profile', username)
 
 
 def error_404(request):
