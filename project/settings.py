@@ -39,7 +39,7 @@ if DJANGO_HOST == "production":
 else:
     DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', 'blog-medium.herokuapp.com']
 
 # Application definition
 
