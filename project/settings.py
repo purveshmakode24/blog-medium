@@ -89,23 +89,24 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
-if DJANGO_HOST == "production":
-    DATABASES = {
-        'default': {
-            'ENGINE': 'djongo',
-            'NAME': 'bmedium',
-            'HOST': 'mongodb://admin:admin123@ds261567.mlab.com:61567/bmedium',
-            'USER': 'admin',
-            'PASSWORD': 'admin123',
-        }
+# if DJANGO_HOST == "production":
+DATABASES = {
+    'default': {
+        'ENGINE': 'djongo',
+        'NAME': 'bmedium',
+        'HOST': 'mongodb://admin:admin123@ds261567.mlab.com:61567/bmedium',
+        'USER': 'admin',
+        'PASSWORD': 'admin123',
     }
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-        }
-    }
+}
+
+# else:
+#     DATABASES = {
+#         'default': {
+#             'ENGINE': 'django.db.backends.sqlite3',
+#             'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         }
+#     }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
