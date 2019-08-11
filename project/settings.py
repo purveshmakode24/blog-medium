@@ -11,7 +11,19 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 """
 
 import os
+import socket
 
+#######################################################################################################
+## For Production and development configuration
+if socket.gethostname().startswith('live'):
+    DJANGO_HOST = "production"
+# Else if host name starts with 'test', set DJANGO_HOST = "test"
+elif socket.gethostname().startswith('test'):
+    DJANGO_HOST = "testing"
+else:
+    # If host doesn't match, assume it's a development server, set DJANGO_HOST = "development"
+    DJANGO_HOST = "development"
+#######################################################################################################
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -22,7 +34,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9@9-l!r@%)^uyg0jppqvmd^cro0f=(xv6dy-w8l9e*b8=sk+=u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+if DJANGO_HOST == "production":
+    DEBUG = False
+else:
+    DEBUG = True
 
 ALLOWED_HOSTS = []
 
@@ -73,12 +88,24 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
-DATABASES = {
-    'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+
+if DJANGO_HOST == "production":
+    DATABASES = {
+        'default': {
+            'ENGINE': 'djongo',
+            'NAME': 'bmedium',
+            'HOST': 'mongodb://admin:admin123@ds261567.mlab.com:61567/bmedium',
+            'USER': 'admin',
+            'PASSWORD': 'admin123',
+        }
     }
-}
+else:
+    DATABASES = {
+        'default': {
+            'ENGINE': 'django.db.backends.sqlite3',
+            'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        }
+    }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
