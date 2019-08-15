@@ -16,7 +16,7 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def home(request):
     total_users = User.objects.all().count()
-    posts = Post.objects.all()
+    posts = Post.objects.all().order_by('-date_posted')
     total_posts_count = Post.objects.all().count()
     paginator = Paginator(posts, 3)
     page = request.GET.get('page')
