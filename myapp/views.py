@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import UserRegisterForm
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 # import filters
@@ -17,7 +18,14 @@ def home(request):
     total_users = User.objects.all().count()
     posts = Post.objects.all()
     total_posts_count = Post.objects.all().count()
-
+    paginator = Paginator(posts, 3)
+    page = request.GET.get('page')
+    try:
+        posts = paginator.page(page)
+    except PageNotAnInteger:
+        posts = paginator.page(1)
+    except EmptyPage:
+        posts = paginator.page(paginator.num_pages)
     context = {'posts': posts,
                'total_users': total_users,
                'total_posts_count': total_posts_count}
