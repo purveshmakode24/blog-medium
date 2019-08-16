@@ -95,8 +95,8 @@ DATABASES = {
     'default': {
         'ENGINE': 'djongo',  # driver to connect mongoDB
         'NAME': 'bmedium',
-        'HOST': 'mongodb://purveshmakode:admin123@ds261567.mlab.com:61567/bmedium',
-        'USER': 'admin',
+        'HOST': 'mongodb://purveshmakode:admin123@ds033125.mlab.com:33125/bmedium',
+        'USER': 'purveshmakode',
         'PASSWORD': 'admin123',
     }
 }
