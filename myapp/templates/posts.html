@@ -41,7 +41,8 @@
                         <span class="page-link">Previous</span>
                     </li>
                 {% endif %}
-                {% for i in posts.paginator.page_range %}
+{#                {% for i in posts.paginator.page_range %}#}
+                {% for i in page_range %}
                     {% if posts.number == i %}
                         <li class="page-item active"><a class="page-link" href="?page={{ i }}">{{ i }}</a></li>
                     {% else %}

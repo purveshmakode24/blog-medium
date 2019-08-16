@@ -26,9 +26,18 @@ def home(request):
         posts = paginator.page(1)
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
+
+    # index = posts.number-1
+    index = posts.number
+    max_index = len(paginator.page_range)
+    start_index = index - 3 if index >= 3 else 0
+    end_index = index + 3 if index <= max_index - 3 else max_index
+    page_range = list(paginator.page_range)[start_index:end_index]
     context = {'posts': posts,
                'total_users': total_users,
-               'total_posts_count': total_posts_count}
+               'total_posts_count': total_posts_count,
+               'page_range': page_range,
+               }
     return render(request, "posts.html", context)
 
 

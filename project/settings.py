@@ -92,7 +92,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # if DJANGO_HOST == "production":
 DATABASES = {
     'default': {
-        'ENGINE': 'djongo',
+        'ENGINE': 'djongo',  # driver to connect mongoDB
         'NAME': 'bmedium',
         'HOST': 'mongodb://admin:admin123@ds261567.mlab.com:61567/bmedium',
         'USER': 'admin',
