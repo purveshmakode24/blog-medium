@@ -121,7 +121,7 @@ def error_404(request):
     return render(request, "404.html")
 
 
-def full_post(request, pid, title):
+def full_post(request, pid, slug):
     # all_post = Post.objects.all()
     # for x in all_post:
     #     list_p_title = x.title
@@ -138,12 +138,12 @@ def full_post(request, pid, title):
         return render(request, 'full_post.html', context)
     else:
         current_post_id = pid
-        current_post_title = title
+        current_post_title_slug = slug
         # print(title)
         print("current post_id:", current_post_id)
         print("NO Post request")
 
-        posts = Post.objects.filter(id=current_post_id, title=current_post_title)
+        posts = Post.objects.filter(id=current_post_id, title=current_post_title_slug)
 
         # if current_post_id == list_pid and current_post_title == list_p_title:
         if posts:

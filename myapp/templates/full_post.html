@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load markdown_deux_tags %}
 {% block title %}
     <title></title>
 {% endblock %}
@@ -20,7 +21,7 @@
                     <a class="text-dark" href="#">{{ item.title }}</a>
                 </h3>
                 <div class="mb-1 text-muted mt-1">{{ item.date_posted|date:"F d, Y" }}</div>
-                <p class="card-text mb-auto mt-4">{{ item.content }}</p>
+                <p class="card-text mb-auto mt-4">{{ item.content|markdown }}</p>
                 {#                <a href="#">Continue reading</a>#}
                 <a href="#"><strong class="d-inline-block mb-2 mt-5 text-primary">Author: {{ item.author }}</strong></a>
             </div>

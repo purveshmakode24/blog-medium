@@ -72,7 +72,7 @@
                     {% endfor %}
                 {% endif %}
 
-{#                <div class="alert alert-danger error" style="display: none;">Not Found</div>#}
+                {#                <div class="alert alert-danger error" style="display: none;">Not Found</div>#}
 
 
                 {% block content %}
@@ -120,6 +120,7 @@
 <script src="{% static 'js/bootstrap.js' %}"></script>
 
 <script>
+    //search filter
     $(document).ready(function () {
         $("#myInput").on("keyup", function () {
             var value = $(this).val().toLowerCase();
@@ -134,6 +135,9 @@
             //}
         });
     });
+
+
+
 </script>
 
 </body>
