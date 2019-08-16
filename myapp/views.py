@@ -122,10 +122,10 @@ def error_404(request):
 
 
 def full_post(request, pid, title):
-    all_post = Post.objects.all()
-    for x in all_post:
-        list_p_title = x.title
-        list_pid = x.id
+    # all_post = Post.objects.all()
+    # for x in all_post:
+    #     list_p_title = x.title
+    #     list_pid = x.id
     if request.method == 'POST':
         current_post_id = request.POST.get('idd')
         # getting current post_id from post request so that current post with that id will be shown up on full_post.html
@@ -140,17 +140,20 @@ def full_post(request, pid, title):
         current_post_id = pid
         current_post_title = title
         # print(title)
-        print(current_post_id)
+        print("current post_id:", current_post_id)
         print("NO Post request")
 
         posts = Post.objects.filter(id=current_post_id, title=current_post_title)
 
-        if current_post_id == list_pid and current_post_title == list_p_title:
+        # if current_post_id == list_pid and current_post_title == list_p_title:
+        if posts:
             context = {
                 'posts': posts,
                 'current_post_id': current_post_id
             }
             return render(request, 'full_post.html', context)
+        # else:
+        #     # return redirect('error_404')
+        #     return render(request, '404.html', {})
         else:
-            # return redirect('error_404')
             return render(request, '404.html', {})

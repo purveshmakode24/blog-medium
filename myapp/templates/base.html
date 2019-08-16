@@ -91,9 +91,8 @@
                 <div class="p-3">
                     <h4 class="font-italic">Elsewhere</h4>
                     <ol class="list-unstyled">
-                        <li><a href="#">GitHub</a></li>
-                        <li><a href="#">Twitter</a></li>
-                        <li><a href="#">Facebook</a></li>
+                        <li><a href="https://github.com/purveshmakode24">GitHub</a></li>
+                        <li><a href="https://twitter.com/purveshmakode24">Twitter</a></li>
                     </ol>
                 </div>
                 {% block user_post_count %}
@@ -101,6 +100,11 @@
                 {% endblock %}
                 {% block total_posts_count %}
                 {% endblock %}
+                <div class="p-3">
+                    <ol class="list-unstyled">
+                        <li><a href="{% url 'blog-home' %}" style="text-decoration: none">&copy; 2019, BMedium.</a></li>
+                    </ol>
+                </div>
             </div>
         {% endblock %}
     </div>
