@@ -21,7 +21,7 @@
                             <a class="text-dark" href="#">{{ item.title }}</a>
                         </h3>
                         <div class="mb-1 text-muted">{{ item.date_posted|date:"F d, Y" }}</div>
-                        <p class="card-text mb-auto">{{ item.content|markdown|slice:":250" }} ...</p>
+                        <p class="card-text mb-auto">{{ item.content|markdown|slice:":230" }}...</p>
                         <input type="text" name="idd" value="{{ item.id }}" hidden>
                         {#                <a href="full_post#idd-{{ item.id }}">Continue reading</a>#}
                         <button type="submit" class="btn btn-outline-info btn-sm mt-2">Continue reading..</button>

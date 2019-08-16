@@ -20,7 +20,7 @@
                 <a href="{% url 'add_posts' user.username %}">Create Your First Post here</a>
             </div>
         {% else %}
-            {% for item in posts reversed %}
+            {% for item in posts %}
                 <div id="myTable">
                     <form method="POST" action="{% url 'full_post' item.id item.slug %}">
                         {% csrf_token %}
