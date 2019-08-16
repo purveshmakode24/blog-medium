@@ -143,7 +143,7 @@ def full_post(request, pid, slug):
         print("current post_id:", current_post_id)
         print("NO Post request")
 
-        posts = Post.objects.filter(id=current_post_id, title=current_post_title_slug)
+        posts = Post.objects.filter(id=current_post_id, slug=current_post_title_slug)
 
         # if current_post_id == list_pid and current_post_title == list_p_title:
         if posts:
