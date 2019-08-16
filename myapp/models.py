@@ -9,7 +9,7 @@ from autoslug import AutoSlugField
 
 class Post(models.Model):
     title = models.CharField(max_length=100)
-    slug = AutoSlugField(populate_from='title')
+    slug = AutoSlugField(populate_from='title', null=True)
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
     author = models.ForeignKey(User, related_name='myapp_posts', on_delete=models.CASCADE)
