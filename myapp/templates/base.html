@@ -64,6 +64,10 @@
 {% endblock %}
 <main role="main" class="container">
     <div class="row">
+
+        {% block forFullPost %}
+        {% endblock %}
+
         {% block content2 %}
             <div class="col-md-8">
                 {% if messages %}
