@@ -91,8 +91,10 @@ AUTHENTICATION_BACKENDS = (
     'social_core.backends.open_id.OpenIdAuth',  # for Google authentication
     'social_core.backends.google.GoogleOpenId',  # for Google authentication
     'social_core.backends.google.GoogleOAuth2',  # for Google authentication
+
     # 'social_core.backends.github.GithubOAuth2',  # for Github authentication
     # 'social_core.backends.facebook.FacebookOAuth2',  # for Facebook authentication
+
 
     'django.contrib.auth.backends.ModelBackend',
 )
@@ -116,23 +118,23 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 
 # if DJANGO_HOST == "production":
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',  # driver to connect mongoDB
-        'NAME': 'bmedium',
-        'HOST': 'mongodb://purveshmakode:admin123@ds033125.mlab.com:33125/bmedium',
-        'USER': 'purveshmakode',
-        'PASSWORD': 'admin123',
-    }
-}
-
-# else:
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#         'ENGINE': 'djongo',  # driver to connect mongoDB
+#         'NAME': 'bmedium',
+#         'HOST': 'mongodb://purveshmakode:admin123@ds033125.mlab.com:33125/bmedium',
+#         'USER': 'purveshmakode',
+#         'PASSWORD': 'admin123',
 #     }
 # }
+
+# else:
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
@@ -188,7 +190,11 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_APP_PASS')
 # google a/c app pass goes up here
 
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH_CLIENT_ID')  # CLient Key
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_OAUTH_SECRET_KEY')  # Secret Key
+# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '' # CLient Key
+# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''  # Secret Key
+
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY ='964815193802-vs1o0ij0808bkc5gv6bqba7avuuufcc0.apps.googleusercontent.com'
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = 'iiHegfEC_WvqMWts5Adv8O3H'
+
 
 django_heroku.settings(locals())
