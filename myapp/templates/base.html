@@ -114,6 +114,8 @@
     </div>
 </main>
 
+{% block external-scripts-for-google-button %}
+{% endblock %}
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -141,8 +143,24 @@
     });
 
 
-
 </script>
+
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>#}
+{#<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.2.0/js/bootstrap.min.js"></script>#}
+{#<script>#}
+{#    // for loading login button#}
+{#    $('#load').on('click', function () {#}
+{#        var $this = $(this);#}
+{#        $this.button('loading');#}
+{#        setTimeout(function () {#}
+{#            $this.button('reset');#}
+{#        }, 8000);#}
+{#    });#}
+{##}
+{##}
+{#    //disable buuton until all fields are filled#}
+{##}
+{#</script>#}
 
 </body>
 </html>

@@ -6,6 +6,8 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import UserRegisterForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+# from django.contrib.messages.views import SuccessMessageMixin
+# from django.contrib.auth.views import LoginView
 
 
 # import filters
@@ -44,11 +46,18 @@ def home(request):
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
+
         if form.is_valid():
-            form.save()
-            username = form.cleaned_data.get('username')
-            messages.success(request, f'Your Account for {username} has been created Successfully')
-            return redirect('login')
+            post_email = form.cleaned_data.get('email')
+            user = User.objects.filter(email=post_email)
+            if user:
+                messages.warning(request, f'This email id {post_email} has already been used.')
+                return redirect('login')
+            else:
+                form.save()
+                username = form.cleaned_data.get('username')
+                messages.success(request, f'Your Account for {username} has been created Successfully')
+                return redirect('login')
     else:
         form = UserRegisterForm()
 
@@ -157,3 +166,9 @@ def full_post(request, pid, slug):
         #     return render(request, '404.html', {})
         else:
             return render(request, '404.html', {})
+
+
+# class LoginFormView(SuccessMessageMixin, LoginView):
+#     template_name = 'registration/login.html'
+#     success_url = '/'
+#     success_message = "You were successfully logged in"

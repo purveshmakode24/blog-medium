@@ -1,4 +1,7 @@
+certifi==2019.6.16
+chardet==3.0.4
 dataclasses==0.6
+defusedxml==0.6.0
 dj-database-url==0.5.0
 Django==2.2.4
 django-autoslug==1.9.6
@@ -8,9 +11,19 @@ django-heroku==0.3.1
 django-markdown-deux==1.0.5
 djongo==1.2.33
 gunicorn==19.9.0
+idna==2.8
 markdown2==2.3.8
+oauthlib==3.1.0
 psycopg2==2.8.3
+PyJWT==1.7.1
 pymongo==3.8.0
+python3-openid==3.1.0
 pytz==2019.1
+requests==2.22.0
+requests-oauthlib==1.2.0
+six==1.12.0
+social-auth-app-django==3.1.0
+social-auth-core==3.2.0
 sqlparse==0.2.4
+urllib3==1.25.3
 whitenoise==4.1.3
