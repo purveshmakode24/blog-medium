@@ -9,8 +9,9 @@ https://docs.djangoproject.com/en/2.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/2.2/ref/settings/
 """
-import django_heroku
+
 import os
+import django_heroku
 import socket
 
 #######################################################################################################
@@ -96,7 +97,6 @@ AUTHENTICATION_BACKENDS = (
     # 'social_core.backends.github.GithubOAuth2',  # for Github authentication
     # 'social_core.backends.facebook.FacebookOAuth2',  # for Facebook authentication
 
-
     'django.contrib.auth.backends.ModelBackend',
 )
 
@@ -170,12 +170,9 @@ USE_TZ = True
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.2/howto/static-files/
-STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
-STATIC_URL = '/static/'
 
-STATICFILES_DIRS = (
-    os.path.join(BASE_DIR, 'static'),
-)
+STATIC_URL = '/static/'
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
@@ -200,6 +197,5 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_APP_PASS')
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH_CLIENT_ID')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_OAUTH_SECRET_KEY')
-
 
 django_heroku.settings(locals())
