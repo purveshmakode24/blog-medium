@@ -118,23 +118,23 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 
 # if DJANGO_HOST == "production":
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',  # driver to connect mongoDB
-#         'NAME': 'bmedium',
-#         'HOST': 'mongodb://purveshmakode:admin123@ds033125.mlab.com:33125/bmedium',
-#         'USER': 'purveshmakode',
-#         'PASSWORD': 'admin123',
-#     }
-# }
-
-# else:
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'djongo',  # driver to connect mongoDB
+        'NAME': 'bmedium',
+        'HOST': 'mongodb://purveshmakode:admin123@ds033125.mlab.com:33125/bmedium',
+        'USER': 'purveshmakode',
+        'PASSWORD': 'admin123',
     }
 }
+
+# else:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 # Password validation
 # https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
