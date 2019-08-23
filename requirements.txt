@@ -1,6 +1,7 @@
 certifi==2019.3.9
 chardet==3.0.4
 cycler==0.10.0
+dataclasses==0.6
 defusedxml==0.6.0
 dj-database-url==0.5.0
 Django==2.2.4
@@ -13,6 +14,8 @@ django-ranged-response==0.2.0
 django-simple-captcha==0.5.10
 django-smart-selects==1.5.4
 django-widget-tweaks==1.4.3
+djongo==1.2.33
+et-xmlfile==1.0.1
 gunicorn==19.9.0
 idna==2.8
 jdcal==1.4
@@ -24,12 +27,11 @@ mysql==0.0.2
 mysqlclient==1.4.2.post1
 numpy==1.16.1
 oauthlib==3.1.0
-openpyxl==2.5.14
-pandas==0.24.0
 Pillow==5.4.1
 pipenv==2018.11.26
 psycopg2==2.8.2
 PyJWT==1.7.1
+pymongo==3.9.0
 PyMySQL==0.9.3
 pyparsing==2.3.1
 python-dateutil==2.7.5
@@ -41,7 +43,7 @@ selenium==3.14.1
 six==1.12.0
 social-auth-app-django==3.1.0
 social-auth-core==3.2.0
-sqlparse==0.3.0
+sqlparse==0.2.4
 virtualenv==16.0.0
 virtualenv-clone==0.5.3
 virtualenvwrapper-win==1.2.5
