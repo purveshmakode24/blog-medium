@@ -12,18 +12,18 @@ https://docs.djangoproject.com/en/2.2/ref/settings/
 
 import os
 import django_heroku
-import socket
+# import socket
 
 #######################################################################################################
 ## For Production and development configuration
-if socket.gethostname().startswith('live'):
-    DJANGO_HOST = "production"
-# Else if host name starts with 'test', set DJANGO_HOST = "test"
-elif socket.gethostname().startswith('test'):
-    DJANGO_HOST = "testing"
-else:
-    # If host doesn't match, assume it's a development server, set DJANGO_HOST = "development"
-    DJANGO_HOST = "development"
+# if socket.gethostname().startswith('live'):
+#     DJANGO_HOST = "production"
+# # Else if host name starts with 'test', set DJANGO_HOST = "test"
+# elif socket.gethostname().startswith('test'):
+#     DJANGO_HOST = "testing"
+# else:
+#     # If host doesn't match, assume it's a development server, set DJANGO_HOST = "development"
+#     DJANGO_HOST = "development"
 #######################################################################################################
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -40,7 +40,7 @@ DEBUG = False
 # else:
 #     DEBUG = True
 
-ALLOWED_HOSTS = ['127.0.0.1', 'blog-medium.herokuapp.com']
+ALLOWED_HOSTS = []
 
 # Application definition
 
