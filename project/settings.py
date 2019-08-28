@@ -36,11 +36,13 @@ SECRET_KEY = '9@9-l!r@%)^uyg0jppqvmd^cro0f=(xv6dy-w8l9e*b8=sk+=u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 # if DJANGO_HOST == "production":
-DEBUG = False
+# DEBUG = False
 # else:
 #     DEBUG = True
 
-ALLOWED_HOSTS = []
+DEBUG = os.environ.get('DJANGO_DEBUG') != 'False'
+
+ALLOWED_HOSTS = ['blog-medium.herokuapp.com']
 
 # Application definition
 
