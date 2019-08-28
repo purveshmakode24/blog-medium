@@ -35,10 +35,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9@9-l!r@%)^uyg0jppqvmd^cro0f=(xv6dy-w8l9e*b8=sk+=u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-if DJANGO_HOST == "production":
-    DEBUG = False
-else:
-    DEBUG = True
+# if DJANGO_HOST == "production":
+DEBUG = False
+# else:
+#     DEBUG = True
 
 ALLOWED_HOSTS = ['127.0.0.1', 'blog-medium.herokuapp.com']
 
