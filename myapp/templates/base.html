@@ -11,15 +11,16 @@
         <title>BMedium</title>
     {% endblock %}
     <link rel="stylesheet" href="{% static 'css/bootstrap/bootstrap.css' %}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.7.2/animate.min.css">
     <link href="{% static 'css/custom.css' %}" rel="stylesheet">
 
 </head>
-<body>
+<body onload="anim()">
 {% block content3 %}
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
         <div class="container">
 
-            <a class="navbar-brand" href="{% url 'blog-home' %}">BMedium</a>
+            <a class="navbar-brand anim" onmouseover="anim()" href="{% url 'blog-home' %}">BMedium</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExampleDefault"
                     aria-controls="navbarsExampleDefault" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -141,6 +142,17 @@
             //}
         });
     });
+
+
+    //animation scripts
+    function anim() {
+        const element = document.querySelector('.anim');
+        element.classList.add('animated', 'rubberBand');
+        setTimeout(() => {
+            const element = document.querySelector('.anim');
+            element.classList.remove('animated', 'rubberBand');
+        }, 1000);
+    }
 
 
 </script>
