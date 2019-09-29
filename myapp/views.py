@@ -83,9 +83,10 @@ def add_posts_submit(request):
     if request.method == 'POST':
         post_title = request.POST.get('title')
         post_content = request.POST.get('content')
+        post_read_min = request.POST.get('read_min')
         post_author_id = request.POST.get('author_id')
         try:
-            form = Post(title=post_title, content=post_content, author_id=post_author_id)
+            form = Post(title=post_title, content=post_content, read_min=post_read_min, author_id=post_author_id)
             form.save()
             messages.success(request, f'Post has been Successfully Added!')
         except Exception as e:
