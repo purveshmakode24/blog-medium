@@ -31,7 +31,7 @@ SECRET_KEY = '9@9-l!r@%)^uyg0jppqvmd^cro0f=(xv6dy-w8l9e*b8=sk+=u'
 
 # DEBUG = os.environ.get('DJANGO_DEBUG') != 'False'
 # or
-DEBUG = os.environ.get('DJANGO_DEBUG') != 'False'
+DEBUG = os.environ.get('DJANGO_DEBUG') is not False
 
 # DEBUG = False
 
