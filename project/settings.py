@@ -31,9 +31,9 @@ SECRET_KEY = '9@9-l!r@%)^uyg0jppqvmd^cro0f=(xv6dy-w8l9e*b8=sk+=u'
 
 # DEBUG = os.environ.get('DJANGO_DEBUG') != 'False'
 # or
-DEBUG = os.environ.get('DJANGO_DEBUG') == 'True'
+# DEBUG = os.environ.get('DJANGO_DEBUG') == 'True'
 
-# DEBUG = False
+DEBUG = True
 
 # ALLOWED_HOSTS = ['blog-medium.herokuapp.com', '127.0.0.1']
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'blog-medium.herokuapp.com']
@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'myapp.apps.MyappConfig',
     'markdown_deux',
     'crispy_forms',
+    'hitcount',
 ]
 
 MIDDLEWARE = [

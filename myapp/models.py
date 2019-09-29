@@ -12,6 +12,7 @@ class Post(models.Model):
     slug = AutoSlugField(populate_from='title', null=True)
     content = models.TextField()
     date_posted = models.DateTimeField(default=timezone.now)
+    read_min = models.IntegerField(default=2)
     author = models.ForeignKey(User, related_name='myapp_posts', on_delete=models.CASCADE)
 
     def __str__(self):
