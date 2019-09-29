@@ -36,7 +36,7 @@ SECRET_KEY = '9@9-l!r@%)^uyg0jppqvmd^cro0f=(xv6dy-w8l9e*b8=sk+=u'
 DEBUG = False
 
 # ALLOWED_HOSTS = ['blog-medium.herokuapp.com', '127.0.0.1']
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'blog-medium.herokuapp.com']
 
 # Application definition
 
@@ -193,5 +193,5 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_APP_PASS')
 
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH_CLIENT_ID')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_OAUTH_SECRET_KEY')
-
+#
 django_heroku.settings(locals())
