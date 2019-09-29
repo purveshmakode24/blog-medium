@@ -6,15 +6,13 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import UserRegisterForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+
+
 # from django.contrib.messages.views import SuccessMessageMixin
 # from django.contrib.auth.views import LoginView
 
 
 # import filters
-
-
-# Create your views here.
-
 
 def home(request):
     total_users = User.objects.all().count()
@@ -166,7 +164,6 @@ def full_post(request, pid, slug):
         #     return render(request, '404.html', {})
         else:
             return render(request, '404.html', {})
-
 
 # class LoginFormView(SuccessMessageMixin, LoginView):
 #     template_name = 'registration/login.html'
