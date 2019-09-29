@@ -1,5 +1,6 @@
 import os
 import django_heroku
+
 # import socket
 
 #######################################################################################################
@@ -28,7 +29,11 @@ SECRET_KEY = '9@9-l!r@%)^uyg0jppqvmd^cro0f=(xv6dy-w8l9e*b8=sk+=u'
 # else:
 #     DEBUG = True
 
-DEBUG = os.environ.get('DJANGO_DEBUG') is not False
+# DEBUG = os.environ.get('DJANGO_DEBUG') != 'False'
+# or
+# DEBUG = os.environ.get('DJANGO_DEBUG') is not False
+
+DEBUG = False
 
 ALLOWED_HOSTS = ['blog-medium.herokuapp.com', '127.0.0.1']
 
