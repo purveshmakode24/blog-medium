@@ -1,5 +1,6 @@
 {% extends 'base.html' %}
 {% load markdown_deux_tags %}
+{% load hitcount_tags %}
 {% block title %}
     <title>BMedium</title>
 {% endblock %}
@@ -20,7 +21,7 @@
                         <h3 class="mb-0">
                             <a class="text-dark" href="#">{{ item.title }}</a>
                         </h3>
-                        <div class="mb-1 text-muted">{{ item.date_posted|date:"F d, Y" }}<i class="far fa-eye ml-3"> 123</i></div>
+                        <div class="mb-1 text-muted">{{ item.date_posted|date:"F d, Y" }}<i class="far fa-eye ml-3"> {% get_hit_count for item %}</i></div>
                         <p class="card-text mb-auto">{{ item.content|markdown|slice:":230" }}...</p>
                         <input type="text" name="idd" value="{{ item.id }}" hidden>
                         {#                <a href="full_post#idd-{{ item.id }}">Continue reading</a>#}

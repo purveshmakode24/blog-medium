@@ -6,6 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from .forms import UserRegisterForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
+from hitcount.views import HitCountDetailView
 
 
 # from django.contrib.messages.views import SuccessMessageMixin
@@ -129,42 +130,74 @@ def error_404(request):
     return render(request, "404.html")
 
 
-def full_post(request, pid, slug):
-    # all_post = Post.objects.all()
-    # for x in all_post:
-    #     list_p_title = x.title
-    #     list_pid = x.id
-    if request.method == 'POST':
+class FullPostView(HitCountDetailView):
+    model = Post
+    template_name = "full_post.html"
+    error_404_template = "404.html"
+    # context_object_name = 'item'
+    count_hit = True
+
+    def post(self, request, *args, **kwargs):
         current_post_id = request.POST.get('idd')
         # getting current post_id from post request so that current post with that id will be shown up on full_post.html
-        posts = Post.objects.filter(id=current_post_id)
+        posts = self.model.objects.filter(id=current_post_id)
         context = {
             'posts': posts,
             'current_post_id': current_post_id
         }
         print('post request done')
-        return render(request, 'full_post.html', context)
-    else:
-        current_post_id = pid
-        current_post_title_slug = slug
+        return render(request, self.template_name, context)
+
+    def get(self, request, *args, **kwargs):
+        current_post_id = self.kwargs.get('pid')
+        current_post_title_slug = self.kwargs.get('slug')
         # print(title)
         print("current post_id:", current_post_id)
         print("NO Post request")
 
-        posts = Post.objects.filter(id=current_post_id, slug=current_post_title_slug)
-
-        # if current_post_id == list_pid and current_post_title == list_p_title:
+        posts = self.model.objects.filter(id=current_post_id, slug=current_post_title_slug)
         if posts:
             context = {
                 'posts': posts,
                 'current_post_id': current_post_id
             }
-            return render(request, 'full_post.html', context)
-        # else:
-        #     # return redirect('error_404')
-        #     return render(request, '404.html', {})
+            return render(request, self.template_name, context)
         else:
-            return render(request, '404.html', {})
+            return render(request, self.error_404_template, {})
+
+# def full_post(request, pid, slug):
+#     if request.method == 'POST':
+#         # HitCountDetailView().count_hit = True
+#         current_post_id = request.POST.get('idd')
+#         # getting current post_id from post request so that current post with that id will be shown up on full_post.html
+#         posts = Post.objects.filter(id=current_post_id)
+#         context = {
+#             'posts': posts,
+#             'current_post_id': current_post_id
+#         }
+#         print('post request done')
+#         return render(request, 'full_post.html', context)
+#     else:
+#         current_post_id = pid
+#         current_post_title_slug = slug
+#         # print(title)
+#         print("current post_id:", current_post_id)
+#         print("NO Post request")
+#
+#         posts = Post.objects.filter(id=current_post_id, slug=current_post_title_slug)
+#
+#         # if current_post_id == list_pid and current_post_title == list_p_title:
+#         if posts:
+#             context = {
+#                 'posts': posts,
+#                 'current_post_id': current_post_id
+#             }
+#             return render(request, 'full_post.html', context)
+#         # else:
+#         #     # return redirect('error_404')
+#         #     return render(request, '404.html', {})
+#         else:
+#             return render(request, '404.html', {})
 
 # class LoginFormView(SuccessMessageMixin, LoginView):
 #     template_name = 'registration/login.html'
