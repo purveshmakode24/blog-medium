@@ -21,7 +21,7 @@ gunicorn==19.9.0
 idna==2.8
 jdcal==1.4
 kiwisolver==1.0.1
-markdown2==2.3.8
+markdown2==2.3.9
 MarkupSafe==1.1.0
 mpld3==0.3
 mysql==0.0.2
