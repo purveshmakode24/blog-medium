@@ -33,7 +33,6 @@ INSTALLED_APPS = [
     'myapp.apps.MyappConfig',
     'markdown_deux',
     'crispy_forms',
-    'hitcount',
 ]
 
 MIDDLEWARE = [

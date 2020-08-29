@@ -20,8 +20,8 @@
             <a class="text-dark" href="#">{{ item.title }}</a>
           </h1>
           <div class="mb-1 text-muted mt-1">
-            {{ item.date_posted|date:"F d, Y" }}<i class="far fa-eye ml-3"> 123</i
-            ><i class="fas fa-clock ml-3"> {{ item.read_min }} minutes read</i>
+            {{ item.date_posted|date:"F d, Y" }}<!-- <i class="far fa-eye ml-3"> 123</i
+            > --><i class="fas fa-clock ml-3"> {{ item.read_min }} minutes read</i>
           </div>
           <p class="card-text mb-auto mt-4">{{ item.content|markdown }}</p>
         
