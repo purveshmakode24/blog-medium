@@ -1,19 +1,7 @@
 import os
 import django_heroku
 
-# import socket
 
-#######################################################################################################
-## For Production and development configuration
-# if socket.gethostname().startswith('live'):
-#     DJANGO_HOST = "production"
-# # Else if host name starts with 'test', set DJANGO_HOST = "test"
-# elif socket.gethostname().startswith('test'):
-#     DJANGO_HOST = "testing"
-# else:
-#     # If host doesn't match, assume it's a development server, set DJANGO_HOST = "development"
-#     DJANGO_HOST = "development"
-#######################################################################################################
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -24,19 +12,13 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9@9-l!r@%)^uyg0jppqvmd^cro0f=(xv6dy-w8l9e*b8=sk+=u'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-# if DJANGO_HOST == "production":
-# DEBUG = False
-# else:
-#     DEBUG = True
 
-# DEBUG = os.environ.get('DJANGO_DEBUG') != 'False'
-# or
-DEBUG = os.environ.get('DJANGO_DEBUG') == 'True'
+# DEBUG = os.environ.get('DJANGO_DEBUG') == 'True'
 
-# DEBUG = True
+DEBUG = True
 
 # ALLOWED_HOSTS = ['blog-medium.herokuapp.com', '127.0.0.1']
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', 'blog-medium.herokuapp.com']
+ALLOWED_HOSTS = []
 
 # Application definition
 
@@ -112,21 +94,20 @@ SOCIAL_AUTH_PIPELINE = (
 WSGI_APPLICATION = 'project.wsgi.application'
 
 # Database
-# https://docs.djangoproject.com/en/2.2/ref/settings/#databases
 
 
-# if DJANGO_HOST == "production":
+### For Production:
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',  # driver to connect mongoDB
         'NAME': 'bmedium',
-        'HOST': 'mongodb://purveshmakode:admin123@ds033125.mlab.com:33125/bmedium?retryWrites=false',
+        'HOST': 'mongodb+srv://purveshmakode:DArkT1XKdGHtYtSc@bmedium.rx849.mongodb.net/bmedium?retryWrites=true&w=majority',
         'USER': 'purveshmakode',
-        'PASSWORD': 'admin123',
+        'PASSWORD': 'DArkT1XKdGHtYtSc',
     }
 }
 
-# else:
+### For Development:
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -134,8 +115,6 @@ DATABASES = {
 #     }
 # }
 
-# Password validation
-# https://docs.djangoproject.com/en/2.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
@@ -174,25 +153,21 @@ STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
 
 LOGIN_REDIRECT_URL = 'blog-home'
-
 LOGIN_URL = 'login'
 
 # email
-
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
 EMAIL_HOST_USER = os.environ.get('EMAIL_APP_USER')
-EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_APP_PASS')
-# google a/c app pass goes up here
+EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_APP_PASS') # google a/c app password goes here
 
 
 # SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '' # CLient Key
 # SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''  # Secret Key
 
-
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH_CLIENT_ID')
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_OAUTH_SECRET_KEY')
-#
+
 django_heroku.settings(locals())
