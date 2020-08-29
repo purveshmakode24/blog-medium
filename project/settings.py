@@ -100,11 +100,14 @@ WSGI_APPLICATION = 'project.wsgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',  # driver to connect mongoDB
-        'NAME': 'bmedium',
-        'HOST': 'mongodb+srv://purveshmakode:DArkT1XKdGHtYtSc@bmedium.rx849.mongodb.net/bmedium?retryWrites=true&w=majority',
-        'USER': 'purveshmakode',
-        'PASSWORD': 'DArkT1XKdGHtYtSc',
-    }
+        'CLIENT': {
+           "name": 'bmedium',
+           "host": 'mongodb+srv://purveshmakode:DArkT1XKdGHtYtSc@bmedium.rx849.mongodb.net/bmedium?retryWrites=true&w=majority',
+           "username": 'purveshmakode',
+           "password": 'DArkT1XKdGHtYtSc',
+           "authMechanism": "SCRAM-SHA-1",
+        }, 
+    }    
 }
 
 ### For Development:
