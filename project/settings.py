@@ -101,9 +101,9 @@ DATABASES = {
         'ENGINE': 'djongo',  # driver to connect mongoDB
         'CLIENT': {
            "name": 'bmedium',
-           "host": os.environ.get('BMEDIUM_MONGODB_URI'),
+           "host": 'mongodb+srv://purveshmakode:GsIMa03RqwC3stM9@bmedium.rx849.mongodb.net/bmedium?retryWrites=true&w=majority',
            "username": 'purveshmakode',
-           "password": os.environ.get('BMEDIUM_MONGODB_PASSWORD'),
+           "password": 'GsIMa03RqwC3stM9',
            "authMechanism": "SCRAM-SHA-1",
         }, 
     }    
