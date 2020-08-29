@@ -96,21 +96,22 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 
 
-### For Production:
+### Use For Production:
 DATABASES = {
     'default': {
         'ENGINE': 'djongo',  # driver to connect mongoDB
         'CLIENT': {
            "name": 'bmedium',
-           "host": 'mongodb+srv://purveshmakode:DArkT1XKdGHtYtSc@bmedium.rx849.mongodb.net/bmedium?retryWrites=true&w=majority',
+           "host": os.environ.get('BMEDIUM_MONGODB_URI'),
            "username": 'purveshmakode',
-           "password": 'DArkT1XKdGHtYtSc',
+           "password": os.environ.get('BMEDIUM_MONGODB_PASSWORD'),
            "authMechanism": "SCRAM-SHA-1",
         }, 
     }    
 }
 
-### For Development:
+### Use For Development:
+
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'django.db.backends.sqlite3',
@@ -170,7 +171,7 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_APP_PASS') # google a/c app password
 # SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '' # CLient Key
 # SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''  # Secret Key
 
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH_CLIENT_ID')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH_CLIENT_ID') 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_OAUTH_SECRET_KEY')
 
 django_heroku.settings(locals())
