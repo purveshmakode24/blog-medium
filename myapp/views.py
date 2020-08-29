@@ -71,12 +71,12 @@ def profile(request, username):
     user_posts = user.myapp_posts.all()
     user_posts_count = user.myapp_posts.all().count()
     # user_posts = UserFilter(request.GET, queryset=posts)
-    return render(request, 'registration/profile.html', {'posts': user_posts, 'u_p_count': user_posts_count}, username)
+    return render(request, 'registration/profile.html', {'posts': user_posts, 'u_p_count': user_posts_count})
 
 
 @login_required
 def add_posts(request, username):
-    return render(request, 'add_posts.html', {}, username)
+    return render(request, 'add_posts.html', {})
 
 
 def add_posts_submit(request):
