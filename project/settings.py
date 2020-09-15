@@ -16,7 +16,6 @@ SECRET_KEY = '9@9-l!r@%)^uyg0jppqvmd^cro0f=(xv6dy-w8l9e*b8=sk+=u'
 
 DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 
-# ALLOWED_HOSTS = ['blog-medium.herokuapp.com', '127.0.0.1']
 ALLOWED_HOSTS = ['localhost', 'blog-medium.herokuapp.com', '127.0.0.1']
 
 # Application definition
@@ -94,15 +93,15 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 
 
-### Use For Production:
+# ## Use For Production:
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'djongo',  # driver to connect mongoDB
 #         'CLIENT': {
 #            "name": 'bmedium',
-#            "host": 'mongodb+srv://purveshmakode:GsIMa03RqwC3stM9@bmedium.rx849.mongodb.net/bmedium?retryWrites=true&w=majority',
-#            "username": 'purveshmakode',
-#            "password": 'GsIMa03RqwC3stM9',
+#            "host": os.environ.get('BMEDIUM_MONGODB_URI'),
+#            "username": os.environ.get('BMEDIUM_MONGODB_USER'),
+#            "password": os.environ.get('BMEDIUM_MONGODB_PASS'),
 #            "authMechanism": "SCRAM-SHA-1",
 #         }, 
 #     }    
@@ -166,10 +165,7 @@ EMAIL_HOST_USER = os.environ.get('EMAIL_APP_USER')
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_APP_PASS') # google a/c app password goes here
 
 
-# SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = '' # CLient Key
-# SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = ''  # Secret Key
-
-SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH_CLIENT_ID') 
-SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_OAUTH_SECRET_KEY')
+SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH_CLIENT_ID') # CLient Key
+SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_OAUTH_SECRET_KEY') # Secret Key
 
 # django_heroku.settings(locals())
