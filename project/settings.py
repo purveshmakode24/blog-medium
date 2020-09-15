@@ -1,5 +1,5 @@
 import os
-import django_heroku
+# import django_heroku
 
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -11,11 +11,10 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = '9@9-l!r@%)^uyg0jppqvmd^cro0f=(xv6dy-w8l9e*b8=sk+=u'
 
-# SECURITY WARNING: don't run with debug turned on in production!
 
 # DEBUG = os.environ.get('DJANGO_DEBUG') == 'True'
 
-DEBUG = False
+DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 
 # ALLOWED_HOSTS = ['blog-medium.herokuapp.com', '127.0.0.1']
 ALLOWED_HOSTS = ['localhost', 'blog-medium.herokuapp.com', '127.0.0.1']
@@ -96,27 +95,27 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 
 ### Use For Production:
-DATABASES = {
-    'default': {
-        'ENGINE': 'djongo',  # driver to connect mongoDB
-        'CLIENT': {
-           "name": 'bmedium',
-           "host": 'mongodb+srv://purveshmakode:GsIMa03RqwC3stM9@bmedium.rx849.mongodb.net/bmedium?retryWrites=true&w=majority',
-           "username": 'purveshmakode',
-           "password": 'GsIMa03RqwC3stM9',
-           "authMechanism": "SCRAM-SHA-1",
-        }, 
-    }    
-}
-
-### Use For Development:
-
 # DATABASES = {
 #     'default': {
-#         'ENGINE': 'django.db.backends.sqlite3',
-#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-#     }
+#         'ENGINE': 'djongo',  # driver to connect mongoDB
+#         'CLIENT': {
+#            "name": 'bmedium',
+#            "host": 'mongodb+srv://purveshmakode:GsIMa03RqwC3stM9@bmedium.rx849.mongodb.net/bmedium?retryWrites=true&w=majority',
+#            "username": 'purveshmakode',
+#            "password": 'GsIMa03RqwC3stM9',
+#            "authMechanism": "SCRAM-SHA-1",
+#         }, 
+#     }    
 # }
+
+## Use For Development:
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+    }
+}
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -163,7 +162,7 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.environ.get('EMAIL_APP_USER')
+EMAIL_HOST_USER = os.environ.get('EMAIL_APP_USER')    
 EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_APP_PASS') # google a/c app password goes here
 
 
@@ -173,4 +172,4 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_APP_PASS') # google a/c app password
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH_CLIENT_ID') 
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_OAUTH_SECRET_KEY')
 
-django_heroku.settings(locals())
+# django_heroku.settings(locals())
