@@ -20,6 +20,15 @@ cd BMedium
 pip install -r requirements.txt
 ```
 
+### Database Migrations 
+
+```
+python manage.py makemigrations
+```
+```
+python manage.py migrate
+```
+
 ### Running
 ```
 python manage.py runserver
