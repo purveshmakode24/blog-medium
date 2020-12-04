@@ -97,11 +97,6 @@ def add_posts_submit(request):
     return redirect('blog-home')
 
 
-# class UserFilter(filters.FieldSet):
-#     class Meta:
-#         model = Post
-#         fields = ['title', 'content', 'date_posted', 'author']
-
 def delete_posts(request, username):
     if request.method == 'POST':
         del_post_of_id = request.POST.get('del_post_of_id')
@@ -130,10 +125,6 @@ def error_404(request):
 
 
 def full_post(request, pid, slug):
-    # all_post = Post.objects.all()
-    # for x in all_post:
-    #     list_p_title = x.title
-    #     list_pid = x.id
     if request.method == 'POST':
         current_post_id = request.POST.get('idd')
         # getting current post_id from post request so that current post with that id will be shown up on full_post.html
@@ -160,13 +151,7 @@ def full_post(request, pid, slug):
                 'current_post_id': current_post_id
             }
             return render(request, 'full_post.html', context)
-        # else:
-        #     # return redirect('error_404')
-        #     return render(request, '404.html', {})
         else:
             return render(request, '404.html', {})
 
-# class LoginFormView(SuccessMessageMixin, LoginView):
-#     template_name = 'registration/login.html'
-#     success_url = '/'
-#     success_message = "You were successfully logged in"
+
