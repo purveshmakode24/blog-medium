@@ -8,10 +8,6 @@ from .forms import UserRegisterForm
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
-# from django.contrib.messages.views import SuccessMessageMixin
-# from django.contrib.auth.views import LoginView
-
-
 # import filters
 
 def home(request):
@@ -153,5 +149,3 @@ def full_post(request, pid, slug):
             return render(request, 'full_post.html', context)
         else:
             return render(request, '404.html', {})
-
-
