@@ -10,5 +10,6 @@ urlpatterns = [
     path('full_post/<int:pid>/<slug>/', views.full_post, name='full_post'),
     path('like/<int:pid>/<slug>/', views.like, name='like'),
     path('dislike/<int:pid>/<slug>/', views.dislike, name='dislike'),
+    path('profile/<username>/my_liked_posts/', views.my_liked_posts, name='my_liked_posts'),
     path('error_404/', views.error_404, name='error_404'),
 ]

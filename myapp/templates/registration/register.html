@@ -1,8 +1,22 @@
 {% extends 'base.html' %}
 {% load crispy_forms_tags %}
+
 {% block title %}
     <title>Sign Up</title>
 {% endblock %}
+
+{% block home_navlink %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'blog-home' %}">Home <span class="sr-only">(current)</span></a>
+  </li>
+{% endblock %}
+
+{% block signup_navlink %}
+    <li class="nav-item active">
+        <a class="nav-link" href="{% url 'register' %}">Sign Up</a>
+    </li>
+{% endblock %} 
+
 {% block content %}
     <div class="card p-4">
     <div class="pb-3">

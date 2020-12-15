@@ -1,8 +1,20 @@
 {% extends 'base.html' %}
-
 {% load markdown_deux_tags %}
+
 {% block title %}
-    <title>Profile: {{ user.username }}</title>
+    <title>Bmedium - {{ user.username }}'s profile - My Posts</title>
+{% endblock %}
+
+{% block home_navlink %}
+    <li class="nav-item">
+        <a class="nav-link" href="{% url 'blog-home' %}">Home <span class="sr-only">(current)</span></a>
+    </li>
+{% endblock %}
+
+{% block profile_navlink %}
+    <li class="nav-item">
+        <a class="nav-link active" href="{% url 'profile' user.username %}">{{ user.username }}</a>
+    </li>
 {% endblock %}
 
 {% block content %}
@@ -129,10 +141,40 @@
     </div>
 {% endblock %}
 
-{% block user_post_count %}
-    <div class="p-3 bg-light rounded">
-        <h4><i class="font-italic ">Your Total Posts:</i> <span class="badge badge-secondary">{{ u_p_count }}</span>
-        </h4>
-    </div>
+{% block content2 %} 
+    
+           <div class="mb-5">
+                <ul class="list-group">
+                    <h4 class="mb-3">Profile</h4>
+                    <li href="#" class="list-group-item list-group-item-action">Username:<span class="font-weight-bold"> {{ user.username }}</span></li>
+                    <li href="#" class="list-group-item list-group-item-action">Email:<span class="font-weight-bold"> {{ user.email }}</span></li>
+                </ul>    
+            </div>
+           
+            <div class="list-group mb-5">
+                <h4 class="mb-3">Library</h4>
+                <a href="{% url 'profile' user.username %}" class="list-group-item list-group-item-action active" aria-current="true">
+                    My Posts
+                </a> 
+               <a href="{% url 'my_liked_posts' user.username %}" class="list-group-item list-group-item-action">Liked Posts</a>
+            </div>
 
+            {% block user_post_count %}
+                <div class="rounded mb-3 ">
+                    <ul class="list-group" style="font-size: 20px; font-weight: 500">
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Your Total Posts:
+                            <span class="badge bg-primary text-white rounded-pill">{{  user_posts_count }}</span>
+                        </li>
+                        <li class="list-group-item d-flex justify-content-between align-items-center">
+                            Your Total Liked Posts:
+                            <span class="badge bg-primary text-white rounded-pill">{{  allLikedPostsByCurrentUserCount }}</span>
+                        </li>
+                    </ul>    
+                </div>
+            {% endblock %}  
+   
 {% endblock %}
+
+
+

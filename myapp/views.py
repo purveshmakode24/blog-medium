@@ -32,7 +32,6 @@ def home(request):
 
     allDislikedPostsByCurrentUser = [dislike.post_id for dislike in dislikes if dislike.disliked_user_id == request.user.id] 
 
-
     paginator = Paginator(posts, 3)
     page = request.GET.get('page')
     try:
@@ -42,12 +41,12 @@ def home(request):
     except EmptyPage:
         posts = paginator.page(paginator.num_pages)
 
-    # index = posts.number-1
     index = posts.number
     max_index = len(paginator.page_range)
     start_index = index - 3 if index >= 3 else 0
     end_index = index + 3 if index <= max_index - 3 else max_index
     page_range = list(paginator.page_range)[start_index:end_index]
+
     context = {'posts': posts,
                'total_users': total_users,
                'total_posts_count': total_posts_count,
@@ -89,14 +88,19 @@ def profile(request, username):
     user = User.objects.get(username=request.user)
     user_posts = user.myapp_posts.all()
     user_posts_count = user.myapp_posts.all().count()
-    return render(request, 'registration/profile.html', {'posts': user_posts, 'u_p_count': user_posts_count})
+
+    likes = Like.objects.all()
+    allLikedPostsByCurrentUser = [like.post_id for like in likes if like.liked_user_id == request.user.id]
+    allLikedPostsByCurrentUserCount = len(allLikedPostsByCurrentUser)
+
+    return render(request, 'registration/profile.html', {'posts': user_posts, 'user_posts_count': user_posts_count, 'allLikedPostsByCurrentUserCount': allLikedPostsByCurrentUserCount})
 
 
 @login_required
 def add_posts(request, username):
     return render(request, 'add_posts.html', {})
 
-
+@login_required
 def add_posts_submit(request):
     if request.method == 'POST':
         post_title = request.POST.get('title')
@@ -183,7 +187,7 @@ def like(request, pid, slug):
             #updating the post like count in POST model
             post_likes_count = Like.objects.filter(post_id=pid, is_liked=True).count()
             Post.objects.filter(id=pid).update(likes=post_likes_count)
-            messages.info(request, f'Liked removed')
+            messages.info(request, f'Removed from Liked posts')
         else:
             try:
                 #check if dislike exists before liking, if yes then delete it
@@ -199,7 +203,7 @@ def like(request, pid, slug):
                 like_form.save()
                 post_likes_count = Like.objects.filter(post_id=pid, is_liked=True).count()
                 Post.objects.filter(id=pid).update(likes=post_likes_count)
-                messages.info(request, f'You liked the post!')
+                messages.info(request, f'Added to Liked posts!')
 
             except Exception as e:
                 print(e)  
@@ -221,7 +225,7 @@ def dislike(request, pid, slug):
             #updating the post dislike count in POST model
             post_dislikes_count = Dislike.objects.filter(post_id=pid, is_disliked=True).count()
             Post.objects.filter(id=pid).update(dislikes=post_dislikes_count)
-            messages.info(request, f'Disliked removed')
+            messages.info(request, f'Dislike removed')
         else:
             try:
                 #check if like exists before disliking, if yes then delete it
@@ -238,7 +242,7 @@ def dislike(request, pid, slug):
                 #updating the post dislike count in POST model
                 post_dislikes_count = Dislike.objects.filter(post_id=pid, is_disliked=True).count()
                 Post.objects.filter(id=pid).update(dislikes=post_dislikes_count)
-                messages.info(request, f'You disliked the post')
+                messages.info(request, f'You dislike the post')
             except Exception as e:
                 print(e)  
 
@@ -246,7 +250,25 @@ def dislike(request, pid, slug):
     else:
         return redirect('blog-home')         
 
+@login_required
+def my_liked_posts(request, username):
+    user = User.objects.get(username=request.user)
+    # user_posts = user.myapp_posts.all()
+    user_posts_count = user.myapp_posts.all().count()
+    all_posts = Post.objects.all().order_by('-date_posted')
 
+    likes = Like.objects.all()
+    allLikedPostsByCurrentUser = [like.post_id for like in likes if like.liked_user_id == request.user.id]
+    allLikedPostsByCurrentUserCount = len(allLikedPostsByCurrentUser)
+
+    context = {
+        'posts': all_posts,
+        'user_posts_count': user_posts_count,
+        'allLikedPostsByCurrentUser': allLikedPostsByCurrentUser,
+        'allLikedPostsByCurrentUserCount': allLikedPostsByCurrentUserCount
+    }
+
+    return render(request, 'my_liked_posts.html', context)
 
 
 

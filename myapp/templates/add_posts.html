@@ -1,7 +1,21 @@
 {% extends 'base.html' %} 
+
 {% block title %}
   <title>Add Posts: {{ user.username }}</title>
 {% endblock %} 
+
+{% block home_navlink %}
+  <li class="nav-item">
+      <a class="nav-link" href="{% url 'blog-home' %}">Home <span class="sr-only">(current)</span></a>
+  </li>
+{% endblock %}
+
+{% block add_posts_navlink %}
+  <li class="nav-item">
+    <a class="nav-link active" href="{% url 'add_posts' user.username %}">Add Posts</a>
+  </li>
+{% endblock %}
+
 {% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">

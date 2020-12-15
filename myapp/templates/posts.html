@@ -1,11 +1,17 @@
 {% extends 'base.html' %} 
 {% load markdown_deux_tags %}
+
 {% block title %}
   <title>BMedium</title>
 {% endblock %} 
 
-{% block content %}
+{% block add_posts_navlink %}   
+  <li class="nav-item">
+    <a class="nav-link" href="{% url 'add_posts' user.username %}">Add Posts</a>
+  </li>  
+{% endblock %}
 
+{% block content %}
   <nav aria-label="breadcrumb">
     <ol class="breadcrumb">
       <li class="breadcrumb-item active" aria-current="page">Home</li>
@@ -37,7 +43,6 @@
           <p class="card-text mb-auto">
             {{ item.content|markdown|slice:":230" }}...
           </p>
-          {% comment %} <input type="text" name="idd" value="{{ item.id }}" hidden /> {% endcomment %}
 
           <div class="mt-2">
               <table>
@@ -78,7 +83,6 @@
           </div>
         </div>
       </div>
-    
   </div>
   {% endfor %} 
   {% endif %}
@@ -119,7 +123,6 @@
           <span class="page-link">Next</span>
         </li>
       {% endif %}
-
     </ul>
   </nav>
   {% endif %}
@@ -127,30 +130,24 @@
 {% endblock %} 
 
 {% block total_posts_count %}
-  <div class="p-3 bg-light rounded">
-    <div class="mb-3">
-      <h4>
-        <i class="font-italic pr-4">Total Posts:</i>
-        <span class="badge badge-secondary">{{ total_posts_count }}</span>
-      </h4>
-    </div>
-    <div class="pt-3 border-top">
-      <h4>
-        <i class="font-italic pr-4">Total Users:</i>
-        <span class="badge badge-secondary">{{ total_users }}</span>
-      </h4>
-    </div>
-    <div class="pt-3 border-top">
-      <h4>
-        <i class="font-italic pr-4">Total Likes:</i>
-        <span class="badge badge-secondary">{{ total_likes }}</span>
-      </h4>
-    </div>
-    <div class="pt-3 border-top">
-      <h4>
-        <i class="font-italic pr-4">Total Dislikes:</i>
-        <span class="badge badge-secondary">{{ total_dislikes }}</span>
-      </h4>
-    </div>
+  <div class="mb-3 rounded">
+    <ul class="list-group" style="font-size: 20px; font-weight: 500">
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Posts:
+        <span class="badge bg-primary text-white rounded-pill">{{ total_posts_count }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Users:
+        <span class="badge bg-primary text-white rounded-pill">{{ total_users }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Likes:
+        <span class="badge bg-primary text-white rounded-pill">{{ total_likes }}</span>
+      </li>
+      <li class="list-group-item d-flex justify-content-between align-items-center">
+        Total Dislikes:
+        <span class="badge bg-primary text-white rounded-pill">{{ total_dislikes }}</span>
+      </li>
+    </ul>
   </div>
 {% endblock %}
