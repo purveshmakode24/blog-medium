@@ -9,7 +9,7 @@
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
             <li class="breadcrumb-item"><a href="{% url 'blog-home' %}">Home</a></li>
-            <li class="breadcrumb-item active">Profile:{{ user.username }}</li>
+            <li class="breadcrumb-item active">Profile: {{ user.username }}</li>
             <li class="breadcrumb-item active" aria-current="page">My Posts</li>
         </ol>
     </nav>
@@ -21,7 +21,7 @@
                 <a href="{% url 'add_posts' user.username %}">Create Your First Post here</a>
             </div>
         {% else %}
-            {% for item in posts %}
+            {% for item in posts reversed %}
                 <div id="myTable">
                     <form method="POST" action="{% url 'full_post' item.id item.slug %}">
                         {% csrf_token %}
@@ -33,7 +33,6 @@
                                 </h3>
                                 <div class="mb-1 text-muted">{{ item.date_posted|date:"F d, Y" }}</div>
                                 <p class="card-text mb-auto">{{ item.content|markdown|slice:":290" }} ...</p>
-                                <input type="text" name="idd" value="{{ item.id }}" hidden>
                                 <div class="mt-2">
                                     <table>
                                         <tr>
@@ -59,7 +58,7 @@
                         </div>
                     </form>
                 </div>
-                <form method="POST" action="{% url 'delete_posts' user.username %}">
+                <form method="POST" action="{% url 'delete_posts' user.username item.id %}">
                     {% csrf_token %}
                     <!-- Modal delete user post -->
                     <div class="modal fade" id="id-delete-{{ item.id }}" tabindex="-1" role="dialog"
@@ -76,7 +75,6 @@
                                 <div class="modal-body">
                                     <h6 style="color:#566787">Are you sure you want to delete these Records?</h6>
                                     <input type="text" value="{{ item.title }}" readonly>
-                                    <input type="text" name="del_post_of_id" value="{{ item.id }}" hidden>
                                     <small style="color:#8A6D3B">This action cannot be undone.</small>
                                 </div>
                                 <div class="modal-footer">
@@ -88,7 +86,7 @@
                     </div>
                 </form>
 
-                <form method="POST" action="{% url 'update_post' user.username %}">
+                <form method="POST" action="{% url 'update_post' user.username item.id %}">
                     {% csrf_token %}
                     <!-- Modal Update post -->
                     <div class="modal fade" id="id-update-{{ item.id }}" tabindex="-1" role="dialog"
@@ -114,9 +112,6 @@
                                             <label for="message-text" class="col-form-label">Content:</label>
                                             <textarea class="form-control" name="update_content_to" id="message-text"
                                                       rows="10">{{ item.content }}</textarea>
-                                        </div>
-                                        <div class="form-group">
-                                            <input type="text" name="post_id" value="{{ item.id }}" hidden>
                                         </div>
                                     </form>
                                 </div>

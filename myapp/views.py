@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from .models import Post
+from .models import Post, Like, Dislike
 # from django.contrib.auth.forms import UserCreationForm
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
@@ -14,6 +14,25 @@ def home(request):
     total_users = User.objects.all().count()
     posts = Post.objects.all().order_by('-date_posted')
     total_posts_count = Post.objects.all().count()
+
+    likes = Like.objects.all()
+    dislikes = Dislike.objects.all()
+
+    total_likes = Like.objects.all().count()
+    total_dislikes = Dislike.objects.all().count()
+
+    #To check if logged in user already liked the post or not
+    # for item in posts:
+    #     if item.liked_posts.filter(liked_user_id=request.user.id):
+    #         print("yes")
+    #     else:
+    #         print("NO")   
+
+    allLikedPostsByCurrentUser = [like.post_id for like in likes if like.liked_user_id == request.user.id]
+
+    allDislikedPostsByCurrentUser = [dislike.post_id for dislike in dislikes if dislike.disliked_user_id == request.user.id] 
+
+
     paginator = Paginator(posts, 3)
     page = request.GET.get('page')
     try:
@@ -33,6 +52,10 @@ def home(request):
                'total_users': total_users,
                'total_posts_count': total_posts_count,
                'page_range': page_range,
+               'total_likes': total_likes,
+               'total_dislikes': total_dislikes,
+               'allLikedPostsByCurrentUser': allLikedPostsByCurrentUser,
+               'allDislikedPostsByCurrentUser': allDislikedPostsByCurrentUser
                }
     return render(request, "posts.html", context)
 
@@ -66,7 +89,6 @@ def profile(request, username):
     user = User.objects.get(username=request.user)
     user_posts = user.myapp_posts.all()
     user_posts_count = user.myapp_posts.all().count()
-    # user_posts = UserFilter(request.GET, queryset=posts)
     return render(request, 'registration/profile.html', {'posts': user_posts, 'u_p_count': user_posts_count})
 
 
@@ -84,18 +106,17 @@ def add_posts_submit(request):
         try:
             form = Post(title=post_title, content=post_content, read_min=post_read_min, author_id=post_author_id)
             form.save()
-            messages.success(request, f'Post has been Successfully Added!')
+            messages.success(request, f'Post has been successfully added!')
         except Exception as e:
             print(e)
     else:
-        # return render(request, '404.html')
         return redirect('error_404')
     return redirect('blog-home')
 
 
-def delete_posts(request, username):
+def delete_posts(request, username, pid):
     if request.method == 'POST':
-        del_post_of_id = request.POST.get('del_post_of_id')
+        del_post_of_id = pid
         # resolved deleting of post with same title names, and assign filter to 'post id' instead, as it's always unique
         Post.objects.filter(id=del_post_of_id).delete()
         messages.success(request, f'Your Post has been Deleted!')
@@ -104,9 +125,9 @@ def delete_posts(request, username):
     return redirect('profile', username)
 
 
-def update_post(request, username):
+def update_post(request, username, pid):
     if request.method == 'POST':
-        post_id = request.POST.get('post_id')
+        post_id = pid
         update_title_to = request.POST.get('update_title_to')
         update_content_to = request.POST.get('update_content_to')
         Post.objects.filter(id=post_id).update(title=update_title_to, content=update_content_to)
@@ -122,11 +143,11 @@ def error_404(request):
 
 def full_post(request, pid, slug):
     if request.method == 'POST':
-        current_post_id = request.POST.get('idd')
+        current_post_id = pid
         # getting current post_id from post request so that current post with that id will be shown up on full_post.html
-        posts = Post.objects.filter(id=current_post_id)
+        post = Post.objects.filter(id=current_post_id)
         context = {
-            'posts': posts,
+            'post': post,
             'current_post_id': current_post_id
         }
         print('post request done')
@@ -134,18 +155,103 @@ def full_post(request, pid, slug):
     else:
         current_post_id = pid
         current_post_title_slug = slug
-        # print(title)
+
         print("current post_id:", current_post_id)
         print("NO Post request")
 
-        posts = Post.objects.filter(id=current_post_id, slug=current_post_title_slug)
+        post = Post.objects.filter(id=current_post_id, slug=current_post_title_slug)
 
-        # if current_post_id == list_pid and current_post_title == list_p_title:
-        if posts:
+        if post:
             context = {
-                'posts': posts,
+                'post': post,
                 'current_post_id': current_post_id
             }
             return render(request, 'full_post.html', context)
         else:
             return render(request, '404.html', {})
+
+
+@login_required
+def like(request, pid, slug):
+    if request.method == "POST":
+        dislikePostByCurrentUser = Dislike.objects.filter(disliked_user_id = request.user.id, post_id = pid, is_disliked=True)
+        likePostByCurrentUser = Like.objects.filter(post_id = pid, liked_user_id=request.user.id, is_liked=True)
+
+        #clicking already clicked liked button
+        if likePostByCurrentUser.exists():
+            likePostByCurrentUser.delete()
+            #updating the post like count in POST model
+            post_likes_count = Like.objects.filter(post_id=pid, is_liked=True).count()
+            Post.objects.filter(id=pid).update(likes=post_likes_count)
+            messages.info(request, f'Liked removed')
+        else:
+            try:
+                #check if dislike exists before liking, if yes then delete it
+                if dislikePostByCurrentUser.exists():
+                    dislikePostByCurrentUser.delete()
+                    #updating the post dislike count in POST model
+                    post_dislikes_count = Dislike.objects.filter(post_id=pid, is_disliked=True).count()
+                    Post.objects.filter(id=pid).update(dislikes=post_dislikes_count)
+
+                #liking
+                is_liked = True
+                like_form = Like(liked_user_id = request.user.id, post_id = pid, is_liked = is_liked)
+                like_form.save()
+                post_likes_count = Like.objects.filter(post_id=pid, is_liked=True).count()
+                Post.objects.filter(id=pid).update(likes=post_likes_count)
+                messages.info(request, f'You liked the post!')
+
+            except Exception as e:
+                print(e)  
+ 
+        return redirect('blog-home')   
+    else:
+        return redirect('blog-home') 
+
+
+@login_required
+def dislike(request, pid, slug):
+    if request.method == "POST":
+        likePostByCurrentUser = Like.objects.filter(liked_user_id = request.user.id, post_id = pid, is_liked=True)
+        dislikePostByCurrentUser = Dislike.objects.filter(post_id = pid, disliked_user_id=request.user.id, is_disliked=True)
+
+        #clicking already clicked disliked button
+        if dislikePostByCurrentUser.exists():
+            dislikePostByCurrentUser.delete()
+            #updating the post dislike count in POST model
+            post_dislikes_count = Dislike.objects.filter(post_id=pid, is_disliked=True).count()
+            Post.objects.filter(id=pid).update(dislikes=post_dislikes_count)
+            messages.info(request, f'Disliked removed')
+        else:
+            try:
+                #check if like exists before disliking, if yes then delete it
+                if likePostByCurrentUser.exists():
+                    Like.objects.filter(liked_user_id = request.user.id, post_id = pid, is_liked=True).delete()
+                     #updating the post like count in POST model
+                    post_likes_count = Like.objects.filter(post_id=pid, is_liked=True).count()
+                    Post.objects.filter(id=pid).update(likes=post_likes_count)
+
+                #disliking
+                is_disliked = True
+                dislike_form = Dislike(disliked_user_id = request.user.id, post_id = pid, is_disliked = is_disliked)
+                dislike_form.save()
+                #updating the post dislike count in POST model
+                post_dislikes_count = Dislike.objects.filter(post_id=pid, is_disliked=True).count()
+                Post.objects.filter(id=pid).update(dislikes=post_dislikes_count)
+                messages.info(request, f'You disliked the post')
+            except Exception as e:
+                print(e)  
+
+        return redirect('blog-home')   
+    else:
+        return redirect('blog-home')         
+
+
+
+
+
+
+
+
+
+
