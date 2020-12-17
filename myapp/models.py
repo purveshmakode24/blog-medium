@@ -14,8 +14,8 @@ class Post(models.Model):
     date_posted = models.DateTimeField(default=timezone.now)
     read_min = models.IntegerField(default=2)
     author = models.ForeignKey(User, related_name='myapp_posts', on_delete=models.CASCADE)
-    likes = models.PositiveIntegerField(default=0)
-    dislikes = models.PositiveIntegerField(default=0)
+    likes = models.IntegerField(default=0)
+    dislikes = models.IntegerField(default=0)
 
     def __str__(self):
         return self.title
@@ -30,7 +30,7 @@ class Like(models.Model):
 
 class Dislike(models.Model):
     disliked_user = models.ForeignKey(User, related_name='disliked_users', on_delete=models.SET_NULL, null=True)
-    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+    post = models.ForeignKey(Post, related_name='disliked_posts', on_delete=models.CASCADE)
     is_disliked = models.BooleanField(default=False)
     time = models.DateTimeField(default=timezone.now)
     def __str__(self):

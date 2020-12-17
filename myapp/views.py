@@ -11,54 +11,94 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 # import filters
 
 def home(request):
-    total_users = User.objects.all().count()
-    posts = Post.objects.all().order_by('-date_posted')
-    total_posts_count = Post.objects.all().count()
+    if request.method == "POST":   
+        uid = request.POST.get('author_id')
+        if uid == '0':
+            return redirect('blog-home')
+        else:
+            #filtering
+            filteredPosts =  True
+            selectedUser = User.objects.filter(id = uid)
+            postsbySelectedUser = Post.objects.filter(author_id = uid).order_by('-date_posted')
+            total_users = User.objects.all().count()
+            total_posts_count = Post.objects.all().count()
 
-    likes = Like.objects.all()
-    dislikes = Dislike.objects.all()
+            likes = Like.objects.all()
+            dislikes = Dislike.objects.all()
 
-    total_likes = Like.objects.all().count()
-    total_dislikes = Dislike.objects.all().count()
+            total_likes = Like.objects.all().count()
+            total_dislikes = Dislike.objects.all().count()
 
-    #To check if logged in user already liked the post or not
-    # for item in posts:
-    #     if item.liked_posts.filter(liked_user_id=request.user.id):
-    #         print("yes")
-    #     else:
-    #         print("NO")   
+            users = User.objects.all()  
 
-    allLikedPostsByCurrentUser = [like.post_id for like in likes if like.liked_user_id == request.user.id]
+            allLikedPostsByCurrentUser = [like.post_id for like in likes if like.liked_user_id == request.user.id]
+            allDislikedPostsByCurrentUser = [dislike.post_id for dislike in dislikes if dislike.disliked_user_id == request.user.id] 
 
-    allDislikedPostsByCurrentUser = [dislike.post_id for dislike in dislikes if dislike.disliked_user_id == request.user.id] 
+    
+            context = {'posts': postsbySelectedUser,
+                'total_users': total_users,
+                'total_posts_count': total_posts_count,
+                'total_likes': total_likes,
+                'total_dislikes': total_dislikes,
+                'allLikedPostsByCurrentUser': allLikedPostsByCurrentUser,
+                'allDislikedPostsByCurrentUser': allDislikedPostsByCurrentUser,
+                'users': users,
+                'filteredPosts': filteredPosts,
+                'selectedUser': selectedUser
+                }
+            return render(request, "posts.html", context) 
+    else:
+        total_users = User.objects.all().count()
+        posts = Post.objects.all().order_by('-date_posted')
+        total_posts_count = Post.objects.all().count()
 
-    paginator = Paginator(posts, 3)
-    page = request.GET.get('page')
-    try:
-        posts = paginator.page(page)
-    except PageNotAnInteger:
-        posts = paginator.page(1)
-    except EmptyPage:
-        posts = paginator.page(paginator.num_pages)
+        likes = Like.objects.all()
+        dislikes = Dislike.objects.all()
 
-    index = posts.number
-    max_index = len(paginator.page_range)
-    start_index = index - 3 if index >= 3 else 0
-    end_index = index + 3 if index <= max_index - 3 else max_index
-    page_range = list(paginator.page_range)[start_index:end_index]
+        total_likes = Like.objects.all().count()
+        total_dislikes = Dislike.objects.all().count()
 
-    context = {'posts': posts,
-               'total_users': total_users,
-               'total_posts_count': total_posts_count,
-               'page_range': page_range,
-               'total_likes': total_likes,
-               'total_dislikes': total_dislikes,
-               'allLikedPostsByCurrentUser': allLikedPostsByCurrentUser,
-               'allDislikedPostsByCurrentUser': allDislikedPostsByCurrentUser
-               }
-    return render(request, "posts.html", context)
+        users = User.objects.all()
 
+        #To check if logged in user already liked the post or not
+        # for item in posts:
+        #     if item.liked_posts.filter(liked_user_id=request.user.id):
+        #         print("yes")
+        #     else:
+        #         print("NO")
 
+        allLikedPostsByCurrentUser = [like.post_id for like in likes if like.liked_user_id == request.user.id]
+        allDislikedPostsByCurrentUser = [dislike.post_id for dislike in dislikes if dislike.disliked_user_id == request.user.id] 
+
+        paginator = Paginator(posts, 3)
+        page = request.GET.get('page')
+
+        try:
+            posts = paginator.page(page)
+        except PageNotAnInteger:
+            posts = paginator.page(1)
+        except EmptyPage:
+            posts = paginator.page(paginator.num_pages)
+
+        index = posts.number
+        max_index = len(paginator.page_range)
+        start_index = index - 3 if index >= 3 else 0
+        end_index = index + 3 if index <= max_index - 3 else max_index
+        page_range = list(paginator.page_range)[start_index:end_index]   
+
+        context = {'posts': posts,
+            'total_users': total_users,
+            'total_posts_count': total_posts_count,
+            'page_range': page_range,
+            'total_likes': total_likes,
+            'total_dislikes': total_dislikes,
+            'allLikedPostsByCurrentUser': allLikedPostsByCurrentUser,
+            'allDislikedPostsByCurrentUser': allDislikedPostsByCurrentUser,
+            'users': users
+            }
+        return render(request, "posts.html", context)
+        
+         
 def register(request):
     if request.method == 'POST':
         form = UserRegisterForm(request.POST)
@@ -270,10 +310,7 @@ def my_liked_posts(request, username):
 
     return render(request, 'my_liked_posts.html', context)
 
-
-
-
-
+ 
 
 
 

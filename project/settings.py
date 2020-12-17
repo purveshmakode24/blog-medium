@@ -1,7 +1,6 @@
 import os
 # import django_heroku
 
-
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -92,7 +91,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 
 # Database
 
-## Use For Production:
+# Use For Production:
 # DATABASES = {
 #     'default': {
 #         'ENGINE': 'djongo',  # driver to connect mongoDB
@@ -106,7 +105,7 @@ WSGI_APPLICATION = 'project.wsgi.application'
 #     }    
 # }
 
-## Use For Development:
+#Use For Development:
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',

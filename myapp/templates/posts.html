@@ -18,7 +18,52 @@
     </ol>
   </nav>
 
-  {% if total_posts_count == 0  %}
+  <div class="filter_section pr-2 pl-2">
+    <hr>
+    <label for="authors" class="pt-1">Filter Posts by Author:</label>
+    <form class="form-row pb-2" action="{% url 'blog-home' %}" method="POST">
+      {% csrf_token %} 
+      {% if filteredPosts %} 
+          {% for s_user in selectedUser %}
+            <div class="input-group col-md-6 pt-1 pb-2">
+                <select class="custom-select" name="author_id">
+                  <option disabled>Select Author:</option>
+                  <option value="0">All</option>
+                  {% for user in users %}
+                    {% if user.id == s_user.id %}
+                      <option selected="selected" value="{{ user.id }}">{{ user.username }}</option>
+                    {% else%}  
+                      <option value="{{ user.id }}">{{ user.username }}</option>
+                    {% endif %}
+                  {% endfor %}
+                </select>
+                <div class="input-group-append">
+                  <button class="btn btn-outline-secondary" type="submit">Apply</button>
+                </div>
+            </div>
+            <div class="input-group col-md-6 pt-1 pb-2">
+              <input id="myInput1" class="form-control" type="text" placeholder="Search Posts of {{ s_user.username }}" aria-label="Search">
+            </div>
+          {% endfor %}
+      {% else %}
+          <div class="input-group col-md-6 pt-1 pb-2">
+              <select class="custom-select" name="author_id">
+                <option disabled>Select Author:</option>
+                <option value="0">All</option>
+                {% for user in users %}       
+                  <option value="{{ user.id }}">{{ user.username }}</option>
+                {% endfor %}
+              </select>
+              <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="submit">Apply</button>
+              </div>
+          </div>
+      {% endif %}
+    </form>
+    <hr>
+  </div>
+
+  {% if total_posts_count == 0 or not posts %}
   <div class="nothingToShow">
       <p>Nothing to show here.</p>
     </div>
@@ -86,7 +131,7 @@
   </div>
   {% endfor %} 
   {% endif %}
-  
+ 
   {% if posts.has_other_pages %}
   <nav aria-label="...">
     <ul class="pagination">

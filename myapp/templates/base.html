@@ -117,6 +117,9 @@
           </div>
         {% block forFullPost %} 
         {% endblock %} 
+
+        {% block error404 %}
+        {% endblock %}
         
           <div class="col-md-4">
             {% block content2 %}   
@@ -142,13 +145,15 @@
                 {% block total_posts_count%} 
                 {% endblock %}
             {% endblock %}
+            {% block footer %}
             <div class="p-3">
               <ol class="list-unstyled">
                 <li>
                   <a href="{% url 'blog-home' %}" style="text-decoration: none">&copy; 2019, BMedium.</a>
                 </li>
               </ol>
-            </div>    
+            </div> 
+            {% endblock %}   
           </div>
       </div>
     </main>
@@ -171,12 +176,22 @@
       $(document).ready(function () {
         $("#myInput").on("keyup", function () {
           var value = $(this).val().toLowerCase();
-          $("#myTable form").filter(function () {
+          $("#myTable .card").filter(function () {
             $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
           });
         });
       });
 
+      //search filter for Selected Author Posts
+      $(document).ready(function () {
+        $("#myInput1").on("keyup", function () {
+          var value = $(this).val().toLowerCase();
+          $("#myTable .card").filter(function () {
+            $(this).toggle($(this).text().toLowerCase().indexOf(value) > -1);
+          });
+        });
+      });
+      
       //animation scripts
       function anim() {
         const element = document.querySelector(".anim");
