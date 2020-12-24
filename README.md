@@ -20,6 +20,11 @@ cd BMedium
 pip install -r requirements.txt
 ```
 
+### Setup for Developement
+
+- Set `DEBUG = True` in settings.py
+- Uncomment the DATABASES settings for development and Comment the DATABASES settings for Production in settings.py.
+
 ### Database Migrations 
 
 ```
