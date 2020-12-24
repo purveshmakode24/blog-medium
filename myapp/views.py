@@ -12,14 +12,30 @@ from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 def home(request):
     if request.method == "POST":   
-        uid = request.POST.get('author_id')
-        if uid == '0':
-            return redirect('blog-home')
+        auth_name = request.POST.get('author_name')
+
+        if auth_name == 'All (Home)':
+            messages.success(request, f'Filter applied for "All"')
+            return redirect('blog-home')           
         else:
             #filtering
             filteredPosts =  True
-            selectedUser = User.objects.filter(id = uid)
-            postsbySelectedUser = Post.objects.filter(author_id = uid).order_by('-date_posted')
+
+            if auth_name == '':
+                return redirect('blog-home')  
+            elif User.objects.filter(username = auth_name).exists():
+                selectedUser = User.objects.get(username = auth_name)  # returns object
+                postsbySelectedUser = selectedUser.myapp_posts.all().order_by('-date_posted')  #returns query set
+                messages.success(request, f'Filter applied for "{auth_name}"')
+            else:
+                selectedUser = None
+                postsbySelectedUser = None
+                if len(auth_name)>=40:
+                    messages.warning(request, f'No results found for your search "{auth_name[:40]}...". Please select relevant option from the filter.')
+                else:
+                    messages.warning(request, f'No results found for your search "{auth_name}". Please select relevant option from the filter.')
+            
+
             total_users = User.objects.all().count()
             total_posts_count = Post.objects.all().count()
 
@@ -34,7 +50,7 @@ def home(request):
             allLikedPostsByCurrentUser = [like.post_id for like in likes if like.liked_user_id == request.user.id]
             allDislikedPostsByCurrentUser = [dislike.post_id for dislike in dislikes if dislike.disliked_user_id == request.user.id] 
 
-    
+
             context = {'posts': postsbySelectedUser,
                 'total_users': total_users,
                 'total_posts_count': total_posts_count,
@@ -44,7 +60,8 @@ def home(request):
                 'allDislikedPostsByCurrentUser': allDislikedPostsByCurrentUser,
                 'users': users,
                 'filteredPosts': filteredPosts,
-                'selectedUser': selectedUser
+                'selectedUser': selectedUser,
+                'unkown_filter_auth': auth_name
                 }
             return render(request, "posts.html", context) 
     else:

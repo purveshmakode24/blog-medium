@@ -1,5 +1,5 @@
 import os
-# import django_heroku
+import django_heroku
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -11,9 +11,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '9@9-l!r@%)^uyg0jppqvmd^cro0f=(xv6dy-w8l9e*b8=sk+=u'
 
 
-# DEBUG = os.environ.get('DJANGO_DEBUG') == 'True'
+DEBUG = os.environ.get('DJANGO_DEBUG') == True
 
-DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
+# DEBUG = True # SECURITY WARNING: don't run with debug turned on in production!
 
 ALLOWED_HOSTS = ['localhost', 'blog-medium.herokuapp.com', '127.0.0.1']
 
@@ -92,26 +92,26 @@ WSGI_APPLICATION = 'project.wsgi.application'
 # Database
 
 # Use For Production:
-# DATABASES = {
-#     'default': {
-#         'ENGINE': 'djongo',  # driver to connect mongoDB
-#         'CLIENT': {
-#            "name": 'bmedium',
-#            "host": os.environ.get('BMEDIUM_MONGODB_URI'),
-#            "username": os.environ.get('BMEDIUM_MONGODB_USER'),
-#            "password": os.environ.get('BMEDIUM_MONGODB_PASS'),
-#            "authMechanism": "SCRAM-SHA-1",
-#         }, 
-#     }    
-# }
-
-#Use For Development:
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
-    }
+        'ENGINE': 'djongo',  # driver to connect mongoDB
+        'CLIENT': {
+           "name": 'bmedium',
+           "host": os.environ.get('BMEDIUM_MONGODB_URI'),
+           "username": os.environ.get('BMEDIUM_MONGODB_USER'),
+           "password": os.environ.get('BMEDIUM_MONGODB_PASS'),
+           "authMechanism": "SCRAM-SHA-1",
+        }, 
+    }    
 }
+
+# Use For Development:
+# DATABASES = {
+#     'default': {
+#         'ENGINE': 'django.db.backends.sqlite3',
+#         'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+#     }
+# }
 
 
 AUTH_PASSWORD_VALIDATORS = [
@@ -165,4 +165,4 @@ EMAIL_HOST_PASSWORD = os.environ.get('EMAIL_APP_PASS') # google a/c app password
 SOCIAL_AUTH_GOOGLE_OAUTH2_KEY = os.environ.get('GOOGLE_OAUTH_CLIENT_ID') # CLient Key
 SOCIAL_AUTH_GOOGLE_OAUTH2_SECRET = os.environ.get('GOOGLE_OAUTH_SECRET_KEY') # Secret Key
 
-# django_heroku.settings(locals())
+django_heroku.settings(locals())

@@ -24,112 +24,135 @@
     <form class="form-row pb-2" action="{% url 'blog-home' %}" method="POST">
       {% csrf_token %} 
       {% if filteredPosts %} 
-          {% for s_user in selectedUser %}
+          {% if selectedUser %}
             <div class="input-group col-md-6 pt-1 pb-2">
-                <select class="custom-select" name="author_id">
-                  <option disabled>Select Author:</option>
-                  <option value="0">All</option>
-                  {% for user in users %}
-                    {% if user.id == s_user.id %}
-                      <option selected="selected" value="{{ user.id }}">{{ user.username }}</option>
-                    {% else%}  
-                      <option value="{{ user.id }}">{{ user.username }}</option>
-                    {% endif %}
+              <input list="author_list" name="author_name" class="form-control" type="text" placeholder="Select or Search Author" aria-label="Search">
+                <datalist id="author_list">
+                  <option value="All (Home)">
+                  {% for user in users %}       
+                      <option value="{{ user.username }}">
                   {% endfor %}
-                </select>
+                </datalist>
                 <div class="input-group-append">
                   <button class="btn btn-outline-secondary" type="submit">Apply</button>
                 </div>
             </div>
             <div class="input-group col-md-6 pt-1 pb-2">
-              <input id="myInput1" class="form-control" type="text" placeholder="Search Posts of {{ s_user.username }}" aria-label="Search">
+              <input id="myInput1" class="form-control" type="text" placeholder="Search Posts of {{ selectedUser.username }}" aria-label="Search">
             </div>
-          {% endfor %}
-      {% else %}
-          <div class="input-group col-md-6 pt-1 pb-2">
-              <select class="custom-select" name="author_id">
-                <option disabled>Select Author:</option>
-                <option value="0">All</option>
-                {% for user in users %}       
-                  <option value="{{ user.id }}">{{ user.username }}</option>
-                {% endfor %}
-              </select>
+          {% else %}
+            <div class="input-group col-md-6 pt-1 pb-2">
+              <input list="author_list" name="author_name" class="form-control" type="text" placeholder="Select or Search Author" aria-label="Search">
+              <datalist id="author_list">
+                <option value="All (Home)">
+                  {% for user in users %}       
+                    <option value="{{ user.username }}">
+                  {% endfor %}
+              </datalist>
               <div class="input-group-append">
                 <button class="btn btn-outline-secondary" type="submit">Apply</button>
               </div>
-          </div>
+            </div>
+          {% endif %}  
+      {% else %}
+        <div class="input-group col-md-6 pt-1 pb-2">
+          <input list="author_list" name="author_name" class="form-control" type="text" placeholder="Select or Search Author" aria-label="Search">
+            <datalist id="author_list">
+              <option selected value="All (Home)">
+              {% for user in users %}       
+                <option value="{{ user.username }}">
+              {% endfor %}
+            </datalist>
+            <div class="input-group-append">
+              <button class="btn btn-outline-secondary" type="submit">Apply</button>
+            </div>
+        </div>
       {% endif %}
     </form>
     <hr>
   </div>
 
-  {% if total_posts_count == 0 or not posts %}
-  <div class="nothingToShow">
-      <p>Nothing to show here.</p>
-    </div>
-  {% else %}  
-  {% for item in posts %}
-  <div id="myTable">
-      <div class="card flex-md-row mb-4 shadow-sm h-md-250">
-        <div class="card-body d-flex flex-column align-items-start">
-          <a href="#"
-            ><strong class="d-inline-block mb-2 text-primary"
-              >{{ item.author }}</strong
-            ></a
-          >
-          <h3 class="mb-0">
-            <a class="text-dark" href="#">{{ item.title }}</a>
-          </h3>
-          <div class="mb-1 text-muted">
-            {{ item.date_posted|date:"F d, Y" }}<!-- <i class="far fa-eye ml-3">
-              123</i
-            > -->
-          </div>
-          <p class="card-text mb-auto">
-            {{ item.content|markdown|slice:":230" }}...
-          </p>
+  {% if selectedUser and not posts %}
+    <div class="nothingToShow">
+      <p>Author <span class="font-weight-bold">"{{ selectedUser }}"</span> has no posts available at this moment.</p>
+    </div> 
+  {% elif not selectedUser and not posts %}
+    {% if unkown_filter_auth %}
+      <div class="nothingToShow">
+        {% if unkown_filter_auth|length >= 40 %}
+          <p>No results found for your search <span class="font-weight-bold">"{{ unkown_filter_auth | slice:":40" }}..."</span>.<br/>Please select relevant option from the filter.</p>
+        {% else %}
+          <p>No results found for your search <span class="font-weight-bold">"{{ unkown_filter_auth }}"</span>. Please select relevant option from the filter.</p>
+        {% endif %}  
+      </div>
+    {% else %}
+      <div class="nothingToShow">
+        <p>Nothing to show here.</p>
+      </div>
+    {% endif %}
+  {% else %} 
+    {% for item in posts %}
+    <div id="myTable">
+        <div class="card flex-md-row mb-4 shadow-sm h-md-250">
+          <div class="card-body d-flex flex-column align-items-start">
+            <a href="#"
+              ><strong class="d-inline-block mb-2 text-primary"
+                >{{ item.author }}</strong
+              ></a
+            >
+            <h3 class="mb-0">
+              <a class="text-dark" href="#">{{ item.title }}</a>
+            </h3>
+            <div class="mb-1 text-muted">
+              {{ item.date_posted|date:"F d, Y" }}<!-- <i class="far fa-eye ml-3">
+                123</i
+              > -->
+            </div>
+            <p class="card-text mb-auto">
+              {{ item.content|markdown|slice:":230" }}...
+            </p>
 
-          <div class="mt-2">
-              <table>
-                  <tr>
-                      <td>
-                        <form method="POST" action="{% url 'full_post' item.id item.slug %}">
-                          {% csrf_token %}
-                            <button type="submit" class="btn btn-outline-info btn-sm">Continue reading..
+            <div class="mt-2">
+                <table>
+                    <tr>
+                        <td>
+                          <form method="POST" action="{% url 'full_post' item.id item.slug %}">
+                            {% csrf_token %}
+                              <button type="submit" class="btn btn-outline-info btn-sm">Continue reading..
+                              </button>
+                          </form>    
+                        </td> 
+                        <td>     
+                          <form method="POST" action="{% url 'like' item.id  item.slug  %}">
+                            {% csrf_token %}  
+                            {% if item.id in allLikedPostsByCurrentUser %}
+                            <button type="submit" class="btn btn-primary btn-sm">Liked <span class="badge badge-light">{{ item.likes }}</span>               
+                            </button> 
+                            {% else %} 
+                              <button type="submit" class="btn btn-outline-primary btn-sm">Like <span class="badge badge-light">{{ item.likes }}</span>               
+                              </button>
+                            {% endif %} 
+                          </form>
+                        </td>
+                        <td>
+                          <form method="POST" action="{% url 'dislike' item.id  item.slug  %}">
+                            {% csrf_token %}    
+                            {% if item.id in allDislikedPostsByCurrentUser %}         
+                            <button type="submit" class="btn btn-danger btn-sm">Disliked <span class="badge badge-light">{{ item.dislikes }}
                             </button>
-                        </form>    
-                      </td> 
-                      <td>     
-                        <form method="POST" action="{% url 'like' item.id  item.slug  %}">
-                          {% csrf_token %}  
-                          {% if item.id in allLikedPostsByCurrentUser %}
-                          <button type="submit" class="btn btn-primary btn-sm">Liked <span class="badge badge-light">{{ item.likes }}</span>               
-                          </button> 
-                          {% else %} 
-                            <button type="submit" class="btn btn-outline-primary btn-sm">Like <span class="badge badge-light">{{ item.likes }}</span>               
+                            {% else %}
+                            <button type="submit" class="btn btn-outline-danger btn-sm">Dislike <span class="badge badge-light">{{ item.dislikes }}
                             </button>
-                          {% endif %} 
-                        </form>
-                      </td>
-                      <td>
-                        <form method="POST" action="{% url 'dislike' item.id  item.slug  %}">
-                          {% csrf_token %}    
-                          {% if item.id in allDislikedPostsByCurrentUser %}         
-                          <button type="submit" class="btn btn-danger btn-sm">Disliked <span class="badge badge-light">{{ item.dislikes }}
-                          </button>
-                          {% else %}
-                          <button type="submit" class="btn btn-outline-danger btn-sm">Dislike <span class="badge badge-light">{{ item.dislikes }}
-                          </button>
-                          {% endif %}
-                        </form>
-                      </td>
-                  </tr>
-              </table>
+                            {% endif %}
+                          </form>
+                        </td>
+                    </tr>
+                </table>
+            </div>
           </div>
         </div>
-      </div>
-  </div>
-  {% endfor %} 
+    </div>
+    {% endfor %} 
   {% endif %}
  
   {% if posts.has_other_pages %}
