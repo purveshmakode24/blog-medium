@@ -6,3 +6,8 @@ body {
     padding: 3rem 1.5rem;
     text-align: center;
 }
+
+
+.nothingToShow {
+	padding: 10px 8px 120px 8px;
+}
