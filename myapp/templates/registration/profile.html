@@ -13,7 +13,7 @@
 
 {% block profile_navlink %}
     <li class="nav-item">
-        <a class="nav-link active" href="{% url 'profile' user.username %}">{{ user.username }}</a>
+        <a class="nav-link active" href="{% url 'profile' user.username %}">Hello, {{ user.username }}</a>
     </li>
 {% endblock %}
 

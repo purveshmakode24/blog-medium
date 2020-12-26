@@ -77,13 +77,6 @@ def home(request):
 
         users = User.objects.all()
 
-        #To check if logged in user already liked the post or not
-        # for item in posts:
-        #     if item.liked_posts.filter(liked_user_id=request.user.id):
-        #         print("yes")
-        #     else:
-        #         print("NO")
-
         allLikedPostsByCurrentUser = [like.post_id for like in likes if like.liked_user_id == request.user.id]
         allDislikedPostsByCurrentUser = [dislike.post_id for dislike in dislikes if dislike.disliked_user_id == request.user.id] 
 
@@ -142,15 +135,18 @@ def register(request):
 
 @login_required
 def profile(request, username):
-    user = User.objects.get(username=request.user)
-    user_posts = user.myapp_posts.all()
-    user_posts_count = user.myapp_posts.all().count()
+    if request.user.username == username:
+        user = User.objects.get(username=request.user)
+        user_posts = user.myapp_posts.all()
+        user_posts_count = user.myapp_posts.all().count()
+       
+        likes = Like.objects.all()
+        allLikedPostsByCurrentUser = [like.post_id for like in likes if like.liked_user_id == request.user.id]
+        allLikedPostsByCurrentUserCount = len(allLikedPostsByCurrentUser)
 
-    likes = Like.objects.all()
-    allLikedPostsByCurrentUser = [like.post_id for like in likes if like.liked_user_id == request.user.id]
-    allLikedPostsByCurrentUserCount = len(allLikedPostsByCurrentUser)
-
-    return render(request, 'registration/profile.html', {'posts': user_posts, 'user_posts_count': user_posts_count, 'allLikedPostsByCurrentUserCount': allLikedPostsByCurrentUserCount})
+        return render(request, 'registration/profile.html', {'posts': user_posts, 'user_posts_count': user_posts_count, 'allLikedPostsByCurrentUserCount': allLikedPostsByCurrentUserCount})
+    else:
+        return render(request, '404.html', {})     
 
 
 @login_required
@@ -170,9 +166,10 @@ def add_posts_submit(request):
             messages.success(request, f'Post has been successfully added!')
         except Exception as e:
             print(e)
+        return redirect('blog-home')    
     else:
-        return redirect('error_404')
-    return redirect('blog-home')
+        return render(request, '404.html', {})
+    
 
 
 def delete_posts(request, username, pid):
@@ -181,9 +178,10 @@ def delete_posts(request, username, pid):
         # resolved deleting of post with same title names, and assign filter to 'post id' instead, as it's always unique
         Post.objects.filter(id=del_post_of_id).delete()
         messages.success(request, f'Your Post has been Deleted!')
+        return redirect('profile', username)
     else:
-        return redirect('error_404')
-    return redirect('profile', username)
+        return render(request, '404.html', {})
+    
 
 
 def update_post(request, username, pid):
@@ -193,13 +191,10 @@ def update_post(request, username, pid):
         update_content_to = request.POST.get('update_content_to')
         Post.objects.filter(id=post_id).update(title=update_title_to, content=update_content_to)
         messages.success(request, f'Your Post has been Updated!')
+        return redirect('profile', username)
     else:
-        return redirect('error_404')
-    return redirect('profile', username)
-
-
-def error_404(request):
-    return render(request, "404.html")
+        return render(request, '404.html', {})
+    
 
 
 def full_post(request, pid, slug):
