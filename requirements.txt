@@ -5,7 +5,7 @@ chardet==3.0.4
 cryptography==3.2
 defusedxml==0.7.0rc1
 dj-database-url==0.5.0
-Django==3.0.5
+Django==3.0.12
 django-autoslug==1.9.8
 django-crispy-forms==1.9.2
 django-etc==1.2.0
