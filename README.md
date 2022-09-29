@@ -3,6 +3,8 @@ An online publishing platform.
 
 > BMedium is an online publishing platform. The platform is an example of social journalism, having a hybrid collection of amateur and professional people and publications, or exclusive blogs or publishers on BMedium, and is regularly regarded as a blog host..
 
+#### Checkout "Disqus - A simple SAAS based discussion platform backend services using DRF" :point_right: [here](https://github.com/purveshmakode24/disqus-saas-drf)
+
 ### Live	
 https://blog-medium.herokuapp.com
 
